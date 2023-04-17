@@ -851,8 +851,27 @@ sub CustomerUserDataGet {
                 next KEY if !defined $Config->{$Key}->{DataSelected};
                 next KEY if defined $Customer{ $Config->{$Key}->{PrefKey} };
 
+                if ( $Config->{$Key}{PrefKey} eq 'UserSkinOptions' ) {
+                    my $UseModernByDefault = $ConfigObject->Get(
+                        'Loader::Customer::DefaultSkin::UseModern');
+                    
+                    $Config->{$Key}{DataSelected}{default}{UseModern} =
+                        $UseModernByDefault;
+                }
+
                 # set default data
-                $Customer{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
+                if ( IsHashRefWithData( $Config->{$Key}{DataSelected} ) ) {
+                    my $FlattenedPrefs = $Self->_FlattenHashPreference(
+                        $Config->{$Key}{DataSelected},
+                        $Config->{$Key}{PrefKey} );
+
+                    $Customer{$_} =
+                        $FlattenedPrefs->{$_} for keys %$FlattenedPrefs;
+                }
+                else {
+                    $Customer{ $Config->{$Key}{PrefKey} } =
+                        $Config->{$Key}->{DataSelected};
+                }
             }
         }
 
@@ -1524,6 +1543,24 @@ sub DESTROY {
     $Self->EventHandlerTransaction();
 
     return 1;
+}
+
+sub _FlattenHashPreference {
+    my ( $Self, $Hash, $PrefKey, $Prefs ) = @_;
+
+    $Prefs //= {};
+
+    for my $Key (keys %$Hash) {
+        if ( IsHashRefWithData( $Hash->{$Key} ) ) {
+            $Self->_FlattenHashPreference($Hash->{$Key}, "$PrefKey-$Key",
+                $Prefs);
+        }
+        else {
+            $Prefs->{"$PrefKey-$Key"} = $Hash->{$Key};
+        }
+    }
+
+    return $Prefs;
 }
 
 1;

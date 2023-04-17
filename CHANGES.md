@@ -1,3 +1,6 @@
+# 6.0.41 2023-XX-XX
+ - Added default settings for new customer UI (to be used if not set explicitly by the user)
+
 # 6.0.40 2023-04-05
  - Added support for pasting images into the rich text editor on the new ticket screen of refreshed customer UI
  - Changed the Mail::IMAPClient Perl module to be required rather than optional

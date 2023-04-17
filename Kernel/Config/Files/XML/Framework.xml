@@ -4094,6 +4094,16 @@ via the Preferences button after logging in.
                 <Item Key="Label" Translatable="1">Skin Options</Item>
                 <Item Key="Desc" Translatable="1">Select configuration options of the selected skin.</Item>
                 <Item Key="Key" Translatable="1"></Item>
+                <Item Key="DataSelected">
+                    <Hash>
+                        <Item Key="default" Translatable="0">
+                            <Hash>
+                                <Item Key="TextSize" Translatable="1">small</Item>
+                                <Item Key="UseModern" Translatable="0">0</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
                 <Item Key="PrefKey">UserSkinOptions</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Active">1</Item>
