@@ -1,6 +1,6 @@
 <!-- TODO: make colors styleable with theme CSS -->
 <template>
-  <div>
+  <div class="cmt-datetimepicker">
     <v-menu v-if="showDate"
         ref="menuDate" eager bottom offset-overflow offset-y
         :content-class="`menu-pointing ${menuClasses.menuDate}`"
@@ -13,6 +13,7 @@
         v-model="date.picked"
         :color="color"
         :no-title="true"
+        :allowed-dates="allowedDates"
         @click.native.stop
         @input="$refs.menuDate.isActive = false"
       ></v-date-picker>
@@ -51,7 +52,11 @@ module.exports = {
     },
     mode: {
       default: 'date/time',
-    }
+    },
+    originalField: {
+      type: Object,
+      default: null,
+    },
   },
   data: function () {
     return {
@@ -77,6 +82,8 @@ module.exports = {
       },
       showDate: !!this.mode.match(/^date/),
       showTime: !!this.mode.match(/time$/),
+      pastDatesAllowed: true,
+      futureDatesAllowed: true,
       // https://github.com/vuetifyjs/vuetify/issues/4502#issuecomment-403077205
       timeMenuIsOpen: false
     };
@@ -130,8 +137,20 @@ module.exports = {
     formatTime: function (time) {
       return ('00' + time.h).slice(-2) + ':' + ('00' + time.m).slice(-2);
     },
+    allowedDates: function (val) {
+      var date = new Date(val);
+      var now = new Date();
+      
+      if (!this.pastDatesAllowed && date < now)
+        return false;
+      
+      if (!this.futureDatesAllowed && date > now)
+        return false;
+      
+      return true;
+    },
     initializeFromSelects: function () {
-      var parentNode = this.$el.parentNode;
+      var parentNode = (this.originalField || this.$el.parentNode);
 
       this.selects.day    = parentNode.querySelector('select[name$="Day"]');
       this.selects.month  = parentNode.querySelector('select[name$="Month"]');
@@ -158,6 +177,13 @@ module.exports = {
 
       if (!this.selects.hour && !this.selects.minute)
         this.showTime = false;
+
+      if (this.selects.day) {
+        if (this.selects.day.classList.contains('Validate_DateNotInFuture'))
+          this.futureDatesAllowed = false;
+        if (this.selects.day.classList.contains('Validate_DateInFuture'))
+          this.pastDatesAllowed = false;
+      }
     },
     updateClasses: function (ref) {
       setTimeout((function () {

@@ -446,6 +446,25 @@
                     </v-select>
                   </v-col>
                 </template>
+
+                <template v-if="field.type == 'date'">
+                  <v-col cols="12" sm="3"
+                    class="pb-0 pt-0 pt-sm-2"
+                  >
+                    <label
+                      v-html="`${field.label}:`"
+                      class="mb-1 mt-3 mr-4"
+                    ></label>
+                  </v-col>
+                  <v-col
+                    cols="12" sm="9" md="6"
+                    class="pb-0 pt-0 pt-sm-2"
+                  >
+                    <datetimepicker
+                      :original-field="field.row.querySelector('.Field')"
+                    ></datetimepicker>
+                  </v-col>
+                </template>
               </v-row>
 
               <v-row class="my-0">
@@ -763,6 +782,27 @@ module.exports = {
       }, this);
     },
 
+    recognizeFieldType: function (row) {
+      var name = row.classList[1] ?
+        row.classList[1].replace(/^Row_DynamicField_/, '') : null;
+      var type;
+
+      if (name && (sel('select#DynamicField_' + name + 'Day') ||
+          sel('select#DynamicField_' + name + 'Month') ||
+          sel('select#DynamicField_' + name + 'Year')))
+        type = 'date';
+      else if (sel('input.DynamicFieldText', row))
+        type = 'text';
+      else if (sel('select.DynamicFieldText', row)) {
+        if (sel('select.DynamicFieldText', row).multiple)
+          type = 'multiselect';
+        else
+          type = 'dropdown';
+      }
+
+      return type;
+    },
+
     // CKEditor ready event handler
     onEditorReady: function () {
       sel('.cke_button__textcolor').addEventListener('click', function () {
@@ -910,16 +950,9 @@ module.exports = {
 
     selAll('.Row[class^="Row Row_DynamicField_"]').forEach(function (row) {
       var name, type, label, options, value, serverError;
-      
-      if (sel('input.DynamicFieldText', row))
-        type = 'text';
-      else if (sel('select.DynamicFieldText', row)) {
-        if (sel('select.DynamicFieldText', row).multiple)
-          type = 'multiselect';
-        else
-          type = 'dropdown';
-      }
 
+      type = this.recognizeFieldType(row);
+      
       if (type == 'text') {
         name  = sel('.Field input', row).name;
         value = sel('.Field input', row).value;
@@ -952,6 +985,9 @@ module.exports = {
           if (option.selected)
             value.push(option.value);
         });
+      }
+      else if (type == 'date') {
+        name = row.classList[1].replace(/^Row_/, '');
       }
 
       name = name.replace(/^DynamicField_/, '');
@@ -1052,7 +1088,11 @@ module.exports = {
     });
 
     this.dynamicFields.forEach(function (field) {
-      var fieldElement = document.querySelector('#df_' + field.name)
+      var fieldElement = document.querySelector('#df_' + field.name);
+
+      if (!fieldElement)
+        return;
+
       field.errorAttach =
         fieldElement.parentElement.parentElement.parentElement;
     });
@@ -1089,7 +1129,7 @@ h2 {
   display: inline-block;
 }
 
-.v-form input[type="text"] {
+.v-form .v-input__slot input[type="text"] {
   border: initial;
   border-radius: initial;
   height: initial;

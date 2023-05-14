@@ -184,6 +184,17 @@ html {
   }
 }
 
+.cmt-datetimepicker {
+  :not(.v-text-field__slot) > input[type="text"].dateTimePicker-dateInput,
+  :not(.v-text-field__slot) > input[type="text"].dateTimePicker-timeInput {
+    border-color: rgba(0, 0, 0, 0.38);
+    font-size: initial;
+    height: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
 //button,
 button[type="submit"] {
   @include button;
