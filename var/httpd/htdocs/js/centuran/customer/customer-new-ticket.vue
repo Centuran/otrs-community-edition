@@ -295,7 +295,7 @@
               </v-row>
 
               <v-row v-for="(field, i) in dynamicFields"
-                :class="field.type != 'textarea' ? 'align-baseline' : ''"
+                class="align-baseline"
               >
                 <template v-if="field.type == 'text'">
                   <v-col cols="12" sm="3"
@@ -334,6 +334,29 @@
                         </v-tooltip>
                       </template>
                     </v-text-field>
+                  </v-col>
+                </template>
+
+                <template v-if="field.type == 'textarea'">
+                  <v-col cols="12" sm="3"
+                    class="pb-0 pt-0 pt-sm-2"
+                  >
+                    <label
+                      v-html="`${field.label}:`"
+                      class="mb-1 mt-3 mr-4"
+                    ></label>
+                  </v-col>
+                  <v-col
+                    cols="12" sm="9"
+                    class="pb-0 pt-0 pt-sm-2"
+                  >
+                    <v-textarea
+                      :id="`df_${field.name}`"
+                      v-model="msg.dynamicFields[field.name]"
+                      dense
+                      outlined
+                      :rows="field.row.querySelector('textarea').rows"
+                    ></v-textarea>
                   </v-col>
                 </template>
                 
@@ -463,6 +486,17 @@
                     <datetimepicker
                       :original-field="field.row.querySelector('.Field')"
                     ></datetimepicker>
+                  </v-col>
+                </template>
+
+                <template v-if="field.type == 'checkbox'">
+                  <v-col cols="12" class="pb-0 pt-0">
+                    <v-checkbox
+                      v-model="msg.dynamicFields[field.name]"
+                      dense
+                      hide-details
+                      :label="field.label"
+                    ></v-checkbox>
                   </v-col>
                 </template>
               </v-row>
@@ -742,6 +776,14 @@ module.exports = {
 
       // Populate original dynamic field inputs
       Object.keys(this.msg.dynamicFields).forEach(function (name) {
+        var field = this.dynamicFields.find(function (field) {
+          return field.name == name;
+        });
+        
+        // Exclude date/time fields (the component takes care of them)
+        if (field && field.type == 'date')
+          return;
+
         var origInput = sel('[name="DynamicField_' + name + '"]');
         var value = this.msg.dynamicFields[name];
         
@@ -749,6 +791,8 @@ module.exports = {
           selAll('option', origInput).forEach(function (option) {
             option.selected = value.includes(option.value);
           });
+        else if (origInput.type !== undefined && origInput.type == 'checkbox')
+          origInput.checked = !!this.msg.dynamicFields[name];
         else
           origInput.value = this.msg.dynamicFields[name];
       }, this);
@@ -793,12 +837,16 @@ module.exports = {
         type = 'date';
       else if (sel('input.DynamicFieldText', row))
         type = 'text';
+      else if (sel('textarea.DynamicFieldTextArea', row))
+        type = 'textarea';
       else if (sel('select.DynamicFieldText', row)) {
         if (sel('select.DynamicFieldText', row).multiple)
           type = 'multiselect';
         else
           type = 'dropdown';
       }
+      else if (sel('input.DynamicFieldCheckbox'))
+        type = 'checkbox';
 
       return type;
     },
@@ -957,6 +1005,10 @@ module.exports = {
         name  = sel('.Field input', row).name;
         value = sel('.Field input', row).value;
       }
+      else if (type == 'textarea') {
+        name  = sel('.Field textarea', row).name;
+        value = sel('.Field textarea', row).value;
+      }
       else if (type == 'dropdown') {
         name  = sel('.Field select', row).name;
         value = sel('.Field select', row).value;
@@ -988,6 +1040,10 @@ module.exports = {
       }
       else if (type == 'date') {
         name = row.classList[1].replace(/^Row_/, '');
+      }
+      else if (type == 'checkbox') {
+        name  = sel('input[type="checkbox"]', row).name;
+        value = sel('input[type="checkbox"]', row).checked;
       }
 
       name = name.replace(/^DynamicField_/, '');

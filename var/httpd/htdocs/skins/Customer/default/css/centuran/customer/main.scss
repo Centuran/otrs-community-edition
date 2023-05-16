@@ -195,6 +195,18 @@ html {
   }
 }
 
+.v-textarea textarea {
+  border: none;
+  border-radius: none;
+  font-family: inherit;
+  font-size: inherit;
+
+  &:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
 //button,
 button[type="submit"] {
   @include button;
