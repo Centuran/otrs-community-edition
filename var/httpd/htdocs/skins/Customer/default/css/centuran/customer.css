@@ -214,7 +214,9 @@
 }
 input[type=email],
 input[type=password],
-input[type=text] {
+input[type=text],
+:not(.v-text-field__slot) > input[type=text].dateTimePicker-dateInput,
+:not(.v-text-field__slot) > input[type=text].dateTimePicker-timeInput {
   border: solid 1px rgba(0, 0, 0, 0.38);
   border: solid 1px #d2d2d2;
   border-radius: 4px;
@@ -1182,6 +1184,26 @@ html {
   padding: 0 12px;
   height: 40px;
   box-sizing: border-box;
+}
+
+.cmt-datetimepicker :not(.v-text-field__slot) > input[type=text].dateTimePicker-dateInput,
+.cmt-datetimepicker :not(.v-text-field__slot) > input[type=text].dateTimePicker-timeInput {
+  border-color: rgba(0, 0, 0, 0.38);
+  font-size: initial;
+  height: 40px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.v-textarea textarea {
+  border: none;
+  border-radius: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+.v-textarea textarea:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 button[type=submit] {

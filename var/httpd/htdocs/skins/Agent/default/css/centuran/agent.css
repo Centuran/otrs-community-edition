@@ -214,7 +214,9 @@
 }
 input[type=email],
 input[type=password],
-input[type=text] {
+input[type=text],
+:not(.v-text-field__slot) > input[type=text].dateTimePicker-dateInput,
+:not(.v-text-field__slot) > input[type=text].dateTimePicker-timeInput {
   border: solid 1px rgba(0, 0, 0, 0.38);
   border: solid 1px #d2d2d2;
   border-radius: 4px;
