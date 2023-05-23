@@ -361,7 +361,9 @@
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-card>
+        <v-card
+          class="mb-8"
+        >
           <v-card-title
             v-html="Core.Language.Translate('Ticket Information')"
           ></v-card-title>
@@ -383,6 +385,38 @@
                 </tbody>
               </template>
             </v-simple-table>
+          </v-card-text>
+        </v-card>
+
+        <v-card v-if="ticket.isProcess"
+          class="process-activities"
+        >
+          <v-card-title
+            v-html="Core.Language.Translate('Next Steps')"
+          ></v-card-title>
+          <v-card-text>
+            <v-btn v-for="(item, index) in ticket.nextActivities"
+              tag="a"
+              :href="item.href"
+              block
+              depressed
+              color="rgb(33, 150, 243)"
+              :class="`AsPopup process-activity white--text py-2
+                ${index > 0 ? 'mt-4' : ''}`"
+            >
+              <span class="text-center">
+                {{ item.title }}
+              </span>
+            </v-btn>
+
+            <p v-if="ticket.nextActivities.length == 0"
+              class="text-center"
+            >
+              {{ 
+                Core.Language.Translate('There are no dialogs available at ' +
+                  'this point in the process.')
+              }}
+            </p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -677,17 +711,35 @@ module.exports = {
         value: sel('span', element).nextElementSibling.textContent,
       });
     });
+
+    var isProcessTicket = sel('#Activities') !== null;
+    var nextActivities  = [];
+
+    selAll('#Activities li').forEach(function (element) {
+      if (element.className == 'Header')
+        return true;
+
+      if (!sel('a', element))
+        return true;
+      
+      nextActivities.push({
+        title: sel('a', element).getAttribute('title'),
+        href:  sel('a', element).getAttribute('href'),
+      });
+    });
     
     var printLink =
       sel('#TicketOptions a[href*="Action=CustomerTicketPrint;"]');
     var printUrl = printLink ? printLink.getAttribute('href') : null;
 
     this.ticket = {
-      title:      title,
-      priority:   priority,
-      priorityId: priorityId,
-      metaData:   metaData,
-      printUrl:   printUrl,
+      title:          title,
+      priority:       priority,
+      priorityId:     priorityId,
+      metaData:       metaData,
+      isProcess:      isProcessTicket,
+      nextActivities: nextActivities,
+      printUrl:       printUrl,
     };
 
     for (var item of container.children) {
@@ -1219,6 +1271,22 @@ module.exports = {
   font-size: initial;
   letter-spacing: 0.022em;
   text-transform: none;
+}
+
+.process-activities p {
+  font-size: initial;
+}
+
+.v-btn.process-activity {
+  font-size: initial;
+  height: fit-content;
+  letter-spacing: 0.022em;
+  text-transform: none;
+}
+
+.v-btn.process-activity .v-btn__content {
+  flex: auto;
+  white-space: normal;
 }
 </style>
 
