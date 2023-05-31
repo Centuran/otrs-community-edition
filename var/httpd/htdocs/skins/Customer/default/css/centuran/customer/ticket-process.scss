@@ -13,6 +13,13 @@
         0 1px 1px 0 rgba(0, 0, 0, .14),
         0 1px 3px 0 rgba(0, 0, 0, .12) !important;
       padding: 12px;
+
+      &:not(.TableLike) {
+        p.AsteriskExplanation + div {
+          display: flex;
+          align-items: baseline;
+        }
+      }
     }
 
     label[for="ProcessEntityID"] span.Marker::after {
@@ -41,6 +48,11 @@
       h2 + p.Description {
         font-size: 87.5%;
         padding: 10px 0;
+      }
+
+      div.Row {
+        display: flex;
+        align-items: baseline;
       }
     }
 
