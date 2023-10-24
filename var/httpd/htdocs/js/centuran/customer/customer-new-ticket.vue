@@ -649,7 +649,7 @@ module.exports = {
     },
     msg: {
       handler: function (msg) {
-        if (msg.queue) {
+        if (sel('#Dest') && msg.queue) {
           sel('#Dest').value = msg.queue;
           sel('#Dest').dispatchEvent(new Event('change'));
         }
@@ -659,8 +659,13 @@ module.exports = {
           sel('#ServiceID').dispatchEvent(new Event('change'));
         }
 
-        this.msgValid =
-          (this.validate(msg.queue,   this.validateQueue) === true) &&
+        // If queue selection is disabled (no "#Dest" element), the queue
+        // is assumed to be valid (a default one will be assigned
+        // by the system)
+        var queueValid =
+          sel('#Dest') ? this.validate(msg.queue, this.validateQueue) : true;
+
+        this.msgValid = queueValid &&
           (this.validate(msg.subject, 'required') === true) &&
           (this.validate(msg.text,    'required') === true);
       },
@@ -754,10 +759,13 @@ module.exports = {
     },
 
     submitMsg: function () {
-      // Copy entered values to original form
-      sel('#Dest').value                 = this.msg.queue;
+      // Copy entered values to original form     
       sel('#Subject').value              = this.msg.subject;
       sel('textarea[name="Body"]').value = this.msg.text;
+
+      var origDest = sel('#Dest');
+      if (origDest)
+        origDest.value = this.msg.queue;
 
       var origPriority = sel('#PriorityID');
       if (origPriority)
@@ -962,7 +970,7 @@ module.exports = {
       filebrowserUploadUrl: 
         this.additionalData['Baselink'] +
           'Action=' + this.additionalData['RichText.PictureUploadAction'] + '&' +
-          'FormID=' + sel('input[name="FormID"]', sel('#Dest').form).value + '&' +
+          'FormID=' + sel('input[name="FormID"]', sel('form#NewCustomerTicket')).value + '&' +
           this.additionalData['SessionName'] + '=' +
             this.additionalData['SessionID']
     };
@@ -990,8 +998,9 @@ module.exports = {
 
     this.refreshServices();
 
-    // Set the pre-selected queue
-    this.msg.queue = sel('#Dest').value;
+    if (sel('#Dest'))
+      // Set the pre-selected queue
+      this.msg.queue = sel('#Dest').value;
 
     // Set the existing subject
     this.msg.subject = sel('#Subject').value;
