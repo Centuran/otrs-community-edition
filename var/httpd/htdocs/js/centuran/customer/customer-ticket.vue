@@ -143,7 +143,9 @@
             </v-card>
           </v-timeline-item>
 
-          <v-timeline-item hide-dot>
+          <v-timeline-item v-if="replyFormPresent"
+            hide-dot
+          >
             <v-divider 
               width="50%"
               align="center"
@@ -151,7 +153,8 @@
             ></v-divider>
           </v-timeline-item>
 
-          <v-timeline-item light
+          <v-timeline-item v-if="replyFormPresent"
+            light
             class="reply article-user pt-6 mb-2"
             large
           >
@@ -519,6 +522,7 @@ module.exports = {
         priority: '',
         attachments: []
       },
+      replyFormPresent: true,
       replyText: '',
       replyTextInvalid: false,
       replyTextError: '',
@@ -808,6 +812,8 @@ module.exports = {
       var article = {
         id: articleId,
 
+        item: item,
+
         senderType: senderType,
         sentByUser: sentByUser,
 
@@ -830,43 +836,64 @@ module.exports = {
         expanded: true,
       };
 
+      var setContent = function (article, content) {
+        article.content = content;
+
+        var iframe = sel('#article-' + article.id + ' .content-frame');
+
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(article.content);
+        iframe.contentWindow.document.close();
+
+        // Most suggestions for adjusting iframe height to match contents
+        // seem to favor contentWindow.document.body.scrollHeight,
+        // but that resulted in additional vertical margin for some reason.
+        iframe.style.height =
+          iframe.contentWindow.document.documentElement.offsetHeight + 'px';
+
+        // Reset body margins
+        iframe.contentWindow.document.head.innerHTML =
+          '<style type="text/css">body { margin: 0; }</style>' +
+          iframe.contentWindow.document.head.innerHTML;
+        
+        article.loaded = true;
+      };
+
       var contentIframe = sel('.MessageBody iframe', item);
-      var contentSrc    = contentIframe.getAttribute('src');
       
-      if (contentSrc == 'about:blank')
-        contentSrc = contentIframe.getAttribute('title')
-  
-      fetch(contentSrc)
-        .then(function (response) {
-          return response.text();
-        })
-        .then((function (text) {
-          this.content = text;
+      if (contentIframe) {
+        var contentSrc = contentIframe.getAttribute('src');
+      
+        if (contentSrc == 'about:blank')
+          // The URL to fetch the source is in the "title" attribute
+          // (some OTRS shenenigans with the iframe)
+          contentSrc = contentIframe.getAttribute('title');
 
-          var iframe = sel('#article-' + this.id + ' .content-frame');
+        fetch(contentSrc)
+          .then(function (response) {
+            return response.text();
+          })
+          .then((function (text) {
+            var article = this.article;
 
-          iframe.contentWindow.document.open();
-          iframe.contentWindow.document.write(this.content);
-          iframe.contentWindow.document.close();
-
-          // Most suggestions for adjusting iframe height to match contents
-          // seem to favor contentWindow.document.body.scrollHeight,
-          // but that resulted in additional vertical margin for some reason.
-          iframe.style.height =
-            iframe.contentWindow.document.documentElement.offsetHeight + 'px';
-
-          // Reset body margins
-          iframe.contentWindow.document.head.innerHTML =
-              '<style type="text/css">body { margin: 0; }</style>' +
-              iframe.contentWindow.document.head.innerHTML;
-          
-          this.loaded = true;
-        }).bind(article))
-        .then((function () {
-          sel(`#article-${article.id} .content`).style.height =
+            setContent(article, text);
+            sel(`#article-${article.id} .content`).style.height =
               this.contentHeight(article);
-        }).bind(this));
+          }).bind({ contentHeight: this.contentHeight, article: article }));
+      }
+      else {
+        // Content is placed directly in the article item (not in an iframe)
+        setTimeout((function () {
+          var article = this.article;
+          var item    = article.item;
+          var content = sel('.MessageBody .ArticleBody', item).innerHTML;
 
+          setContent(article, content);
+          sel(`#article-${article.id} .content`).style.height =
+            this.contentHeight(article);
+        }).bind({ contentHeight: this.contentHeight, article: article }), 0);
+      }
+         
       this.articles.push(article);
     }
 
@@ -912,7 +939,10 @@ module.exports = {
           this.closingStateId = state.value;
       }, this);
 
-    this.reply.subject = sel('#Subject').value;
+    this.replyFormPresent = sel('#FollowUp') !== null;
+
+    if (this.replyFormPresent)
+      this.reply.subject = sel('#Subject').value;
   },
   mounted: function () {
     // Recreate the original action of the "print" icon
@@ -921,60 +951,62 @@ module.exports = {
       return false;
     });
 
-    sel('.reply .attachments').addEventListener('dragover', function (event) {
-      event.currentTarget.classList.add('drag-over');
-      event.preventDefault();
-    })
+    if (this.replyFormPresent) {
+      sel('.reply .attachments').addEventListener('dragover', function (event) {
+        event.currentTarget.classList.add('drag-over');
+        event.preventDefault();
+      })
 
-    sel('.reply .attachments').addEventListener('dragend', function (event) {
-      event.currentTarget.classList.remove('drag-over');
-      event.preventDefault();
-    })
+      sel('.reply .attachments').addEventListener('dragend', function (event) {
+        event.currentTarget.classList.remove('drag-over');
+        event.preventDefault();
+      })
 
-    sel('.reply .attachments').addEventListener('dragleave', function (event) {
-      event.currentTarget.classList.remove('drag-over');
-      event.preventDefault();
-    })
+      sel('.reply .attachments').addEventListener('dragleave', function (event) {
+        event.currentTarget.classList.remove('drag-over');
+        event.preventDefault();
+      })
 
-    sel('.reply .attachments').addEventListener('drop', function (event) {
-      event.currentTarget.classList.remove('drag-over');
-      event.preventDefault();
+      sel('.reply .attachments').addEventListener('drop', function (event) {
+        event.currentTarget.classList.remove('drag-over');
+        event.preventDefault();
 
-      // Create a duplicate of the event and dispatch it on the original
-      // drag-and-drop upload element
+        // Create a duplicate of the event and dispatch it on the original
+        // drag-and-drop upload element
 
-      var dragEvent = new DragEvent('drop');
-      
-      Object.defineProperty(dragEvent, 'dataTransfer', {
-        value: event.dataTransfer
+        var dragEvent = new DragEvent('drop');
+        
+        Object.defineProperty(dragEvent, 'dataTransfer', {
+          value: event.dataTransfer
+        });
+        
+        dragEvent.type      = 'drop';
+        dragEvent.isTrusted = true;
+        dragEvent.target    = sel('.DnDUpload');
+        
+        sel('.DnDUpload').dispatchEvent(dragEvent);
       });
-      
-      dragEvent.type      = 'drop';
-      dragEvent.isTrusted = true;
-      dragEvent.target    = sel('.DnDUpload');
-      
-      sel('.DnDUpload').dispatchEvent(dragEvent);
-    });
 
-    var origUploadBox = sel('.DnDUploadBox');
+      var origUploadBox = sel('.DnDUploadBox');
 
-    // Observe the changes to the original attachment table and recreate
-    // the complete list in the new UI whenever there's a change
-    (new MutationObserver((function () {
-      this.reply.attachments = []
+      // Observe the changes to the original attachment table and recreate
+      // the complete list in the new UI whenever there's a change
+      (new MutationObserver((function () {
+        this.reply.attachments = []
 
-      selAll('.AttachmentList tbody tr', origUploadBox).forEach(
-        function (element) {
-          this.reply.attachments.push({
-            fileName:    sel('td.Filename', element).textContent,
-            fileSize:    sel('td.Filesize', element).textContent,
-            fileSizeRaw: sel('td.Filesize', element).dataset.fileSize,
-            type:        sel('td.Filetype', element).textContent,
-                      
-            deleteElement: sel('td .AttachmentDelete', element),
-          })
-        }, this);
-    }).bind(this))).observe(origUploadBox, { childList: true, subtree: true });
+        selAll('.AttachmentList tbody tr', origUploadBox).forEach(
+          function (element) {
+            this.reply.attachments.push({
+              fileName:    sel('td.Filename', element).textContent,
+              fileSize:    sel('td.Filesize', element).textContent,
+              fileSizeRaw: sel('td.Filesize', element).dataset.fileSize,
+              type:        sel('td.Filetype', element).textContent,
+                        
+              deleteElement: sel('td .AttachmentDelete', element),
+            })
+          }, this);
+      }).bind(this))).observe(origUploadBox, { childList: true, subtree: true });
+    }
 
     // Adjust the size of expanded articles when window is resized
     window.addEventListener('resize', (function () {
