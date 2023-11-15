@@ -845,6 +845,10 @@ module.exports = {
         iframe.contentWindow.document.write(article.content);
         iframe.contentWindow.document.close();
 
+        // Copy font size from parent document
+        iframe.contentWindow.document.body.style.fontSize =
+          getComputedStyle(document.body).fontSize;
+
         // Most suggestions for adjusting iframe height to match contents
         // seem to favor contentWindow.document.body.scrollHeight,
         // but that resulted in additional vertical margin for some reason.
@@ -855,7 +859,7 @@ module.exports = {
         iframe.contentWindow.document.head.innerHTML =
           '<style type="text/css">body { margin: 0; }</style>' +
           iframe.contentWindow.document.head.innerHTML;
-        
+
         article.loaded = true;
       };
 
