@@ -11,8 +11,6 @@ update-internal-demo:
   script:
     # Make sure the SSH key has proper permissions
     - chmod 600 "${DEV_INTERNAL_DEMO_SSH_KEY}"
-    - echo "${DEV_INTERNAL_DEMO_SSH_KEY}" 
-    - cat "${DEV_INTERNAL_DEMO_SSH_KEY}"
     # Create a temporary directory on the demo machine (using commit ref
     # as its name, rather than a random name, because shell variables
     # set in script are not available in after_script, and we
