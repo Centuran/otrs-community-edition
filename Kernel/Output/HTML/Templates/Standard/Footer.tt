@@ -104,6 +104,29 @@ $(function () {
             this.classList.add('cmt-item-action-link-last');
     });
 });
+
+// On the TicketZoom screen, add custom classes to action list items that are
+// the first or last in a row (i.e. those which are wrapped to the next line)
+// for styling purposes
+if ($('.MainBox.TicketZoom').length > 0) {
+    window.addEventListener('resize', function () {
+        var items =
+            document.querySelectorAll('.Content .ActionRow .Actions > li');
+        items.forEach(function (item) {
+            var prevItem = item.previousElementSibling;
+            if (!prevItem)
+                return true;
+
+            var wrapped = prevItem.offsetLeft >= item.offsetLeft;
+            item.classList.toggle('cmt-item-action-link-first-in-row', wrapped);
+            prevItem.classList.toggle('cmt-item-action-link-last-in-row',
+                wrapped);
+        });
+    });
+
+    // Trigger the resize event to initialize the classes
+    window.dispatchEvent(new Event('resize'));
+}
 </script>
 
 </body>

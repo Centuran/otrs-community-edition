@@ -1057,6 +1057,7 @@ body .MainBox > h1 {
 .ActionRow .Actions > li span.ClusterLink {
   color: #444;
   padding: 5px 10px;
+  white-space: nowrap;
 }
 
 body .Cluster ul ul {
@@ -3607,6 +3608,7 @@ body .MainBox > h1 {
 .ActionRow .Actions > li span.ClusterLink {
   color: #444;
   padding: 5px 10px;
+  white-space: nowrap;
 }
 
 body .Cluster ul ul {
@@ -5456,29 +5458,58 @@ div.Headline .Flag + h1 {
   margin-left: 0.5em;
 }
 
-.ActionRow .Actions {
-  box-shadow: none;
+.WidgetSimple .Content .ActionRow {
+  margin: 0;
 }
-.ActionRow .Actions li#nav-Back a {
+.WidgetSimple .Content .ActionRow .Actions {
+  box-shadow: none;
+  flex-wrap: wrap;
+  margin-right: 2em;
+}
+.WidgetSimple .Content .ActionRow .Actions li#nav-Back a {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom: solid 1px #ccc;
   border-right: solid 1px #ccc;
 }
-.ActionRow .Actions li#nav-Back:hover a {
+.WidgetSimple .Content .ActionRow .Actions li#nav-Back:hover a {
   border-right: solid 1px #24408c !important;
 }
-.ActionRow .Actions li#nav-Back a::before {
+.WidgetSimple .Content .ActionRow .Actions li#nav-Back a::before {
   content: "\f004d";
   font-family: "Material Design Icons";
   margin-right: 0.25em;
   line-height: 1;
 }
-.ActionRow .Actions li#nav-Back + li > a {
+.WidgetSimple .Content .ActionRow .Actions li#nav-Back + li > a {
   border-left: solid 1px #ccc;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   margin-left: 0.5em;
+}
+.WidgetSimple .Content .ActionRow .Actions > li {
+  align-self: flex-end;
+}
+.WidgetSimple .Content .ActionRow .Actions > li.cmt-item-action-link-first-in-row {
+  margin-left: 0;
+}
+.WidgetSimple .Content .ActionRow .Actions > li.cmt-item-action-link-first-in-row a, .WidgetSimple .Content .ActionRow .Actions > li.cmt-item-action-link-first-in-row span.ClusterLink {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.WidgetSimple .Content .ActionRow .Actions > li.cmt-item-action-link-last-in-row a, .WidgetSimple .Content .ActionRow .Actions > li.cmt-item-action-link-last-in-row span.ClusterLink {
+  border-bottom-right-radius: 4px;
+  border-right: solid 1px #ccc;
+  border-top-right-radius: 4px;
+}
+.WidgetSimple .Content .ActionRow .Actions > li + li.cmt-item-action-link-first-in-row {
+  margin-top: 0.5em;
+}
+.WidgetSimple .Content .ActionRow .Actions > li form {
+  padding: 0;
+}
+.WidgetSimple .Content .ActionRow .Actions > li form div.InputField_InputContainer {
+  height: auto;
 }
 
 .WidgetAction {
