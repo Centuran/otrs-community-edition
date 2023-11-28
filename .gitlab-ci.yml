@@ -13,6 +13,9 @@ variables:
   DOCKER_DRIVER: "overlay2"
   REGISTRY_PATH: "${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}"
 
+include:
+  - .gitlab-ci-build-demo.yml
+
 #
 # Build Docker container images
 #

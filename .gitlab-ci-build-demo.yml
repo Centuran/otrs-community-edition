@@ -1,0 +1,50 @@
+variables:
+  DEV_INTERNAL_DEMO_SSH_KEY: ""
+
+update-internal-demo:
+  stage: build
+  image: alpine
+  when: manual
+  before_script:
+    - apk update
+    - apk add openssh-client
+  script:
+    # Make sure the SSH key has proper permissions
+    - chmod 600 "${DEV_INTERNAL_DEMO_SSH_KEY}"
+    - echo "${DEV_INTERNAL_DEMO_SSH_KEY}" 
+    - cat "${DEV_INTERNAL_DEMO_SSH_KEY}"
+    # Create a temporary directory on the demo machine (using commit ref
+    # as its name, rather than a random name, because shell variables
+    # set in script are not available in after_script, and we
+    # need to remove the temporary directory in after_script)
+    - export TMP_DIR="/tmp/${CI_COMMIT_SHA}"
+    - >
+      ssh -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        root@otrsce.demo.centuran.com \
+        "mkdir ${TMP_DIR}"
+    # Copy the source code to the temporary directory
+    - >
+      scp -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        -r "${CI_PROJECT_DIR}/"* "${CI_PROJECT_DIR}/".* \
+        "root@otrsce.demo.centuran.com:${TMP_DIR}"
+    # Make sure OTRS CE files have correct permissions
+    - >
+      ssh -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        root@otrsce.demo.centuran.com \
+        "/opt/otrs/bin/otrs.SetPermissions.pl"
+    # Perform OTRS CE update
+    - >
+      ssh -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        root@otrsce.demo.centuran.com \
+        "sudo -u otrs perl /usr/local/bin/update.pl \"${TMP_DIR}\""
+    # Restart Apache
+    - >
+      ssh -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        root@otrsce.demo.centuran.com \
+        "apachectl restart"
+  after_script:
+    # Remove temporary directory
+    - >
+      ssh -i "${DEV_INTERNAL_DEMO_SSH_KEY}" -o StrictHostKeyChecking=no \
+        root@otrsce.demo.centuran.com \
+        "rm -r /tmp/${CI_COMMIT_SHA}"
