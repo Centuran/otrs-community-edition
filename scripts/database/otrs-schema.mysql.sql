@@ -4,7 +4,7 @@
 # ----------------------------------------------------------
 #  create table acl
 # ----------------------------------------------------------
-CREATE TABLE acl (
+CREATE TABLE `acl` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -23,7 +23,7 @@ CREATE TABLE acl (
 # ----------------------------------------------------------
 #  create table acl_sync
 # ----------------------------------------------------------
-CREATE TABLE acl_sync (
+CREATE TABLE `acl_sync` (
     acl_id VARCHAR (200) NOT NULL,
     sync_state VARCHAR (30) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE acl_sync (
 # ----------------------------------------------------------
 #  create table valid
 # ----------------------------------------------------------
-CREATE TABLE valid (
+CREATE TABLE `valid` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE valid (
 # ----------------------------------------------------------
 #  create table users
 # ----------------------------------------------------------
-CREATE TABLE users (
+CREATE TABLE `users` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (128) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE users (
 # ----------------------------------------------------------
 #  create table user_preferences
 # ----------------------------------------------------------
-CREATE TABLE user_preferences (
+CREATE TABLE `user_preferences` (
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value LONGBLOB NULL,
@@ -72,7 +72,7 @@ CREATE TABLE user_preferences (
 # ----------------------------------------------------------
 #  create table groups
 # ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE `groups` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -87,7 +87,7 @@ CREATE TABLE groups (
 # ----------------------------------------------------------
 #  create table group_user
 # ----------------------------------------------------------
-CREATE TABLE group_user (
+CREATE TABLE `group_user` (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE group_user (
 # ----------------------------------------------------------
 #  create table group_role
 # ----------------------------------------------------------
-CREATE TABLE group_role (
+CREATE TABLE `group_role` (
     role_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE group_role (
 # ----------------------------------------------------------
 #  create table group_customer_user
 # ----------------------------------------------------------
-CREATE TABLE group_customer_user (
+CREATE TABLE `group_customer_user` (
     user_id VARCHAR (100) NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE group_customer_user (
 # ----------------------------------------------------------
 #  create table group_customer
 # ----------------------------------------------------------
-CREATE TABLE group_customer (
+CREATE TABLE `group_customer` (
     customer_id VARCHAR (150) NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -147,7 +147,7 @@ CREATE TABLE group_customer (
 # ----------------------------------------------------------
 #  create table roles
 # ----------------------------------------------------------
-CREATE TABLE roles (
+CREATE TABLE `roles` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -162,7 +162,7 @@ CREATE TABLE roles (
 # ----------------------------------------------------------
 #  create table role_user
 # ----------------------------------------------------------
-CREATE TABLE role_user (
+CREATE TABLE `role_user` (
     user_id INTEGER NOT NULL,
     role_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE role_user (
 # ----------------------------------------------------------
 #  create table personal_queues
 # ----------------------------------------------------------
-CREATE TABLE personal_queues (
+CREATE TABLE `personal_queues` (
     user_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL,
     INDEX personal_queues_queue_id (queue_id),
@@ -184,7 +184,7 @@ CREATE TABLE personal_queues (
 # ----------------------------------------------------------
 #  create table personal_services
 # ----------------------------------------------------------
-CREATE TABLE personal_services (
+CREATE TABLE `personal_services` (
     user_id INTEGER NOT NULL,
     service_id INTEGER NOT NULL,
     INDEX personal_services_service_id (service_id),
@@ -193,7 +193,7 @@ CREATE TABLE personal_services (
 # ----------------------------------------------------------
 #  create table salutation
 # ----------------------------------------------------------
-CREATE TABLE salutation (
+CREATE TABLE `salutation` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     text TEXT NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE salutation (
 # ----------------------------------------------------------
 #  create table signature
 # ----------------------------------------------------------
-CREATE TABLE signature (
+CREATE TABLE `signature` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     text TEXT NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE signature (
 # ----------------------------------------------------------
 #  create table system_address
 # ----------------------------------------------------------
-CREATE TABLE system_address (
+CREATE TABLE `system_address` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     value0 VARCHAR (200) NOT NULL,
     value1 VARCHAR (200) NOT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE system_address (
 # ----------------------------------------------------------
 #  create table system_maintenance
 # ----------------------------------------------------------
-CREATE TABLE system_maintenance (
+CREATE TABLE `system_maintenance` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     start_date INTEGER NOT NULL,
     stop_date INTEGER NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE system_maintenance (
 # ----------------------------------------------------------
 #  create table follow_up_possible
 # ----------------------------------------------------------
-CREATE TABLE follow_up_possible (
+CREATE TABLE `follow_up_possible` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -278,7 +278,7 @@ CREATE TABLE follow_up_possible (
 # ----------------------------------------------------------
 #  create table queue
 # ----------------------------------------------------------
-CREATE TABLE queue (
+CREATE TABLE `queue` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
@@ -309,7 +309,7 @@ CREATE TABLE queue (
 # ----------------------------------------------------------
 #  create table queue_preferences
 # ----------------------------------------------------------
-CREATE TABLE queue_preferences (
+CREATE TABLE `queue_preferences` (
     queue_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL,
@@ -318,7 +318,7 @@ CREATE TABLE queue_preferences (
 # ----------------------------------------------------------
 #  create table ticket_priority
 # ----------------------------------------------------------
-CREATE TABLE ticket_priority (
+CREATE TABLE `ticket_priority` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     color VARCHAR (20) NULL DEFAULT '',
@@ -333,7 +333,7 @@ CREATE TABLE ticket_priority (
 # ----------------------------------------------------------
 #  create table ticket_type
 # ----------------------------------------------------------
-CREATE TABLE ticket_type (
+CREATE TABLE `ticket_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -347,7 +347,7 @@ CREATE TABLE ticket_type (
 # ----------------------------------------------------------
 #  create table ticket_lock_type
 # ----------------------------------------------------------
-CREATE TABLE ticket_lock_type (
+CREATE TABLE `ticket_lock_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -361,7 +361,7 @@ CREATE TABLE ticket_lock_type (
 # ----------------------------------------------------------
 #  create table ticket_state
 # ----------------------------------------------------------
-CREATE TABLE ticket_state (
+CREATE TABLE `ticket_state` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -377,7 +377,7 @@ CREATE TABLE ticket_state (
 # ----------------------------------------------------------
 #  create table ticket_state_type
 # ----------------------------------------------------------
-CREATE TABLE ticket_state_type (
+CREATE TABLE `ticket_state_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -391,7 +391,7 @@ CREATE TABLE ticket_state_type (
 # ----------------------------------------------------------
 #  create table ticket
 # ----------------------------------------------------------
-CREATE TABLE ticket (
+CREATE TABLE `ticket` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tn VARCHAR (50) NOT NULL,
     title VARCHAR (255) NULL,
@@ -442,7 +442,7 @@ CREATE TABLE ticket (
 # ----------------------------------------------------------
 #  create table ticket_flag
 # ----------------------------------------------------------
-CREATE TABLE ticket_flag (
+CREATE TABLE `ticket_flag` (
     ticket_id BIGINT NOT NULL,
     ticket_key VARCHAR (50) NOT NULL,
     ticket_value VARCHAR (50) NULL,
@@ -456,7 +456,7 @@ CREATE TABLE ticket_flag (
 # ----------------------------------------------------------
 #  create table ticket_history
 # ----------------------------------------------------------
-CREATE TABLE ticket_history (
+CREATE TABLE `ticket_history` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     history_type_id SMALLINT NOT NULL,
@@ -485,7 +485,7 @@ CREATE TABLE ticket_history (
 # ----------------------------------------------------------
 #  create table ticket_history_type
 # ----------------------------------------------------------
-CREATE TABLE ticket_history_type (
+CREATE TABLE `ticket_history_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -500,7 +500,7 @@ CREATE TABLE ticket_history_type (
 # ----------------------------------------------------------
 #  create table ticket_watcher
 # ----------------------------------------------------------
-CREATE TABLE ticket_watcher (
+CREATE TABLE `ticket_watcher` (
     ticket_id BIGINT NOT NULL,
     user_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -513,7 +513,7 @@ CREATE TABLE ticket_watcher (
 # ----------------------------------------------------------
 #  create table ticket_index
 # ----------------------------------------------------------
-CREATE TABLE ticket_index (
+CREATE TABLE `ticket_index` (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
     queue VARCHAR (200) NOT NULL,
@@ -528,14 +528,14 @@ CREATE TABLE ticket_index (
 # ----------------------------------------------------------
 #  create table ticket_lock_index
 # ----------------------------------------------------------
-CREATE TABLE ticket_lock_index (
+CREATE TABLE `ticket_lock_index` (
     ticket_id BIGINT NOT NULL,
     INDEX ticket_lock_index_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection
 # ----------------------------------------------------------
-CREATE TABLE ticket_loop_protection (
+CREATE TABLE `ticket_loop_protection` (
     sent_to VARCHAR (250) NOT NULL,
     sent_date VARCHAR (150) NOT NULL,
     INDEX ticket_loop_protection_sent_date (sent_date),
@@ -544,7 +544,7 @@ CREATE TABLE ticket_loop_protection (
 # ----------------------------------------------------------
 #  create table article_sender_type
 # ----------------------------------------------------------
-CREATE TABLE article_sender_type (
+CREATE TABLE `article_sender_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -559,7 +559,7 @@ CREATE TABLE article_sender_type (
 # ----------------------------------------------------------
 #  create table article_flag
 # ----------------------------------------------------------
-CREATE TABLE article_flag (
+CREATE TABLE `article_flag` (
     article_id BIGINT NOT NULL,
     article_key VARCHAR (50) NOT NULL,
     article_value VARCHAR (50) NULL,
@@ -571,7 +571,7 @@ CREATE TABLE article_flag (
 # ----------------------------------------------------------
 #  create table communication_channel
 # ----------------------------------------------------------
-CREATE TABLE communication_channel (
+CREATE TABLE `communication_channel` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     module VARCHAR (200) NOT NULL,
@@ -588,7 +588,7 @@ CREATE TABLE communication_channel (
 # ----------------------------------------------------------
 #  create table article
 # ----------------------------------------------------------
-CREATE TABLE article (
+CREATE TABLE `article` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
@@ -609,7 +609,7 @@ CREATE TABLE article (
 # ----------------------------------------------------------
 #  create table article_data_mime
 # ----------------------------------------------------------
-CREATE TABLE article_data_mime (
+CREATE TABLE `article_data_mime` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     a_from MEDIUMTEXT NULL,
@@ -637,7 +637,7 @@ CREATE TABLE article_data_mime (
 # ----------------------------------------------------------
 #  create table article_search_index
 # ----------------------------------------------------------
-CREATE TABLE article_search_index (
+CREATE TABLE `article_search_index` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NOT NULL,
@@ -650,7 +650,7 @@ CREATE TABLE article_search_index (
 # ----------------------------------------------------------
 #  create table article_data_mime_plain
 # ----------------------------------------------------------
-CREATE TABLE article_data_mime_plain (
+CREATE TABLE `article_data_mime_plain` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     body LONGBLOB NOT NULL,
@@ -664,7 +664,7 @@ CREATE TABLE article_data_mime_plain (
 # ----------------------------------------------------------
 #  create table article_data_mime_attachment
 # ----------------------------------------------------------
-CREATE TABLE article_data_mime_attachment (
+CREATE TABLE `article_data_mime_attachment` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     filename VARCHAR (250) NULL,
@@ -684,7 +684,7 @@ CREATE TABLE article_data_mime_attachment (
 # ----------------------------------------------------------
 #  create table article_data_mime_send_error
 # ----------------------------------------------------------
-CREATE TABLE article_data_mime_send_error (
+CREATE TABLE `article_data_mime_send_error` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     message_id VARCHAR (200) NULL,
@@ -697,7 +697,7 @@ CREATE TABLE article_data_mime_send_error (
 # ----------------------------------------------------------
 #  create table article_data_otrs_chat
 # ----------------------------------------------------------
-CREATE TABLE article_data_otrs_chat (
+CREATE TABLE `article_data_otrs_chat` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     chat_participant_id VARCHAR (255) NOT NULL,
@@ -712,7 +712,7 @@ CREATE TABLE article_data_otrs_chat (
 # ----------------------------------------------------------
 #  create table time_accounting
 # ----------------------------------------------------------
-CREATE TABLE time_accounting (
+CREATE TABLE `time_accounting` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NULL,
@@ -727,7 +727,7 @@ CREATE TABLE time_accounting (
 # ----------------------------------------------------------
 #  create table standard_template
 # ----------------------------------------------------------
-CREATE TABLE standard_template (
+CREATE TABLE `standard_template` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     text TEXT NULL,
@@ -745,7 +745,7 @@ CREATE TABLE standard_template (
 # ----------------------------------------------------------
 #  create table queue_standard_template
 # ----------------------------------------------------------
-CREATE TABLE queue_standard_template (
+CREATE TABLE `queue_standard_template` (
     queue_id INTEGER NOT NULL,
     standard_template_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -756,7 +756,7 @@ CREATE TABLE queue_standard_template (
 # ----------------------------------------------------------
 #  create table standard_attachment
 # ----------------------------------------------------------
-CREATE TABLE standard_attachment (
+CREATE TABLE `standard_attachment` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     content_type VARCHAR (250) NOT NULL,
@@ -774,7 +774,7 @@ CREATE TABLE standard_attachment (
 # ----------------------------------------------------------
 #  create table standard_template_attachment
 # ----------------------------------------------------------
-CREATE TABLE standard_template_attachment (
+CREATE TABLE `standard_template_attachment` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     standard_attachment_id INTEGER NOT NULL,
     standard_template_id INTEGER NOT NULL,
@@ -787,7 +787,7 @@ CREATE TABLE standard_template_attachment (
 # ----------------------------------------------------------
 #  create table auto_response_type
 # ----------------------------------------------------------
-CREATE TABLE auto_response_type (
+CREATE TABLE `auto_response_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,
@@ -802,7 +802,7 @@ CREATE TABLE auto_response_type (
 # ----------------------------------------------------------
 #  create table auto_response
 # ----------------------------------------------------------
-CREATE TABLE auto_response (
+CREATE TABLE `auto_response` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     text0 TEXT NULL,
@@ -822,7 +822,7 @@ CREATE TABLE auto_response (
 # ----------------------------------------------------------
 #  create table queue_auto_response
 # ----------------------------------------------------------
-CREATE TABLE queue_auto_response (
+CREATE TABLE `queue_auto_response` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     queue_id INTEGER NOT NULL,
     auto_response_id INTEGER NOT NULL,
@@ -835,7 +835,7 @@ CREATE TABLE queue_auto_response (
 # ----------------------------------------------------------
 #  create table service
 # ----------------------------------------------------------
-CREATE TABLE service (
+CREATE TABLE `service` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -850,7 +850,7 @@ CREATE TABLE service (
 # ----------------------------------------------------------
 #  create table service_preferences
 # ----------------------------------------------------------
-CREATE TABLE service_preferences (
+CREATE TABLE `service_preferences` (
     service_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL,
@@ -859,7 +859,7 @@ CREATE TABLE service_preferences (
 # ----------------------------------------------------------
 #  create table service_customer_user
 # ----------------------------------------------------------
-CREATE TABLE service_customer_user (
+CREATE TABLE `service_customer_user` (
     customer_user_login VARCHAR (200) NOT NULL,
     service_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -870,7 +870,7 @@ CREATE TABLE service_customer_user (
 # ----------------------------------------------------------
 #  create table sla
 # ----------------------------------------------------------
-CREATE TABLE sla (
+CREATE TABLE `sla` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100) NULL,
@@ -892,7 +892,7 @@ CREATE TABLE sla (
 # ----------------------------------------------------------
 #  create table sla_preferences
 # ----------------------------------------------------------
-CREATE TABLE sla_preferences (
+CREATE TABLE `sla_preferences` (
     sla_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL,
@@ -901,7 +901,7 @@ CREATE TABLE sla_preferences (
 # ----------------------------------------------------------
 #  create table service_sla
 # ----------------------------------------------------------
-CREATE TABLE service_sla (
+CREATE TABLE `service_sla` (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
     UNIQUE INDEX service_sla_service_sla (service_id, sla_id)
@@ -909,7 +909,7 @@ CREATE TABLE service_sla (
 # ----------------------------------------------------------
 #  create table sessions
 # ----------------------------------------------------------
-CREATE TABLE sessions (
+CREATE TABLE `sessions` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     session_id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
@@ -922,7 +922,7 @@ CREATE TABLE sessions (
 # ----------------------------------------------------------
 #  create table customer_user
 # ----------------------------------------------------------
-CREATE TABLE customer_user (
+CREATE TABLE `customer_user` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (200) NOT NULL,
     email VARCHAR (150) NOT NULL,
@@ -950,7 +950,7 @@ CREATE TABLE customer_user (
 # ----------------------------------------------------------
 #  create table customer_preferences
 # ----------------------------------------------------------
-CREATE TABLE customer_preferences (
+CREATE TABLE `customer_preferences` (
     user_id VARCHAR (250) NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL,
@@ -959,7 +959,7 @@ CREATE TABLE customer_preferences (
 # ----------------------------------------------------------
 #  create table customer_company
 # ----------------------------------------------------------
-CREATE TABLE customer_company (
+CREATE TABLE `customer_company` (
     customer_id VARCHAR (150) NOT NULL,
     name VARCHAR (200) NOT NULL,
     street VARCHAR (200) NULL,
@@ -979,7 +979,7 @@ CREATE TABLE customer_company (
 # ----------------------------------------------------------
 #  create table customer_user_customer
 # ----------------------------------------------------------
-CREATE TABLE customer_user_customer (
+CREATE TABLE `customer_user_customer` (
     user_id VARCHAR (100) NOT NULL,
     customer_id VARCHAR (150) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -992,7 +992,7 @@ CREATE TABLE customer_user_customer (
 # ----------------------------------------------------------
 #  create table mail_account
 # ----------------------------------------------------------
-CREATE TABLE mail_account (
+CREATE TABLE `mail_account` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (200) NOT NULL,
@@ -1014,7 +1014,7 @@ CREATE TABLE mail_account (
 # ----------------------------------------------------------
 #  create table postmaster_filter
 # ----------------------------------------------------------
-CREATE TABLE postmaster_filter (
+CREATE TABLE `postmaster_filter` (
     f_name VARCHAR (200) NOT NULL,
     f_stop SMALLINT NULL,
     f_type VARCHAR (20) NOT NULL,
@@ -1026,7 +1026,7 @@ CREATE TABLE postmaster_filter (
 # ----------------------------------------------------------
 #  create table generic_agent_jobs
 # ----------------------------------------------------------
-CREATE TABLE generic_agent_jobs (
+CREATE TABLE `generic_agent_jobs` (
     job_name VARCHAR (200) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
     job_value VARCHAR (200) NULL,
@@ -1035,7 +1035,7 @@ CREATE TABLE generic_agent_jobs (
 # ----------------------------------------------------------
 #  create table search_profile
 # ----------------------------------------------------------
-CREATE TABLE search_profile (
+CREATE TABLE `search_profile` (
     login VARCHAR (200) NOT NULL,
     profile_name VARCHAR (200) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
@@ -1047,7 +1047,7 @@ CREATE TABLE search_profile (
 # ----------------------------------------------------------
 #  create table process_id
 # ----------------------------------------------------------
-CREATE TABLE process_id (
+CREATE TABLE `process_id` (
     process_name VARCHAR (200) NOT NULL,
     process_id VARCHAR (200) NOT NULL,
     process_host VARCHAR (200) NOT NULL,
@@ -1057,7 +1057,7 @@ CREATE TABLE process_id (
 # ----------------------------------------------------------
 #  create table web_upload_cache
 # ----------------------------------------------------------
-CREATE TABLE web_upload_cache (
+CREATE TABLE `web_upload_cache` (
     form_id VARCHAR (250) NULL,
     filename VARCHAR (250) NULL,
     content_id VARCHAR (250) NULL,
@@ -1070,7 +1070,7 @@ CREATE TABLE web_upload_cache (
 # ----------------------------------------------------------
 #  create table notification_event
 # ----------------------------------------------------------
-CREATE TABLE notification_event (
+CREATE TABLE `notification_event` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -1085,7 +1085,7 @@ CREATE TABLE notification_event (
 # ----------------------------------------------------------
 #  create table notification_event_message
 # ----------------------------------------------------------
-CREATE TABLE notification_event_message (
+CREATE TABLE `notification_event_message` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     notification_id INTEGER NOT NULL,
     subject VARCHAR (200) NOT NULL,
@@ -1100,7 +1100,7 @@ CREATE TABLE notification_event_message (
 # ----------------------------------------------------------
 #  create table notification_event_item
 # ----------------------------------------------------------
-CREATE TABLE notification_event_item (
+CREATE TABLE `notification_event_item` (
     notification_id INTEGER NOT NULL,
     event_key VARCHAR (200) NOT NULL,
     event_value VARCHAR (200) NOT NULL,
@@ -1111,7 +1111,7 @@ CREATE TABLE notification_event_item (
 # ----------------------------------------------------------
 #  create table link_type
 # ----------------------------------------------------------
-CREATE TABLE link_type (
+CREATE TABLE `link_type` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -1125,7 +1125,7 @@ CREATE TABLE link_type (
 # ----------------------------------------------------------
 #  create table link_state
 # ----------------------------------------------------------
-CREATE TABLE link_state (
+CREATE TABLE `link_state` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -1139,7 +1139,7 @@ CREATE TABLE link_state (
 # ----------------------------------------------------------
 #  create table link_object
 # ----------------------------------------------------------
-CREATE TABLE link_object (
+CREATE TABLE `link_object` (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     PRIMARY KEY(id),
@@ -1148,7 +1148,7 @@ CREATE TABLE link_object (
 # ----------------------------------------------------------
 #  create table link_relation
 # ----------------------------------------------------------
-CREATE TABLE link_relation (
+CREATE TABLE `link_relation` (
     source_object_id SMALLINT NOT NULL,
     source_key VARCHAR (50) NOT NULL,
     target_object_id SMALLINT NOT NULL,
@@ -1164,7 +1164,7 @@ CREATE TABLE link_relation (
 # ----------------------------------------------------------
 #  create table system_data
 # ----------------------------------------------------------
-CREATE TABLE system_data (
+CREATE TABLE `system_data` (
     data_key VARCHAR (160) NOT NULL,
     data_value LONGBLOB NULL,
     create_time DATETIME NOT NULL,
@@ -1176,7 +1176,7 @@ CREATE TABLE system_data (
 # ----------------------------------------------------------
 #  create table xml_storage
 # ----------------------------------------------------------
-CREATE TABLE xml_storage (
+CREATE TABLE `xml_storage` (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
@@ -1187,7 +1187,7 @@ CREATE TABLE xml_storage (
 # ----------------------------------------------------------
 #  create table virtual_fs
 # ----------------------------------------------------------
-CREATE TABLE virtual_fs (
+CREATE TABLE `virtual_fs` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     filename TEXT NOT NULL,
     backend VARCHAR (60) NOT NULL,
@@ -1200,7 +1200,7 @@ CREATE TABLE virtual_fs (
 # ----------------------------------------------------------
 #  create table virtual_fs_preferences
 # ----------------------------------------------------------
-CREATE TABLE virtual_fs_preferences (
+CREATE TABLE `virtual_fs_preferences` (
     virtual_fs_id BIGINT NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value TEXT NULL,
@@ -1210,7 +1210,7 @@ CREATE TABLE virtual_fs_preferences (
 # ----------------------------------------------------------
 #  create table virtual_fs_db
 # ----------------------------------------------------------
-CREATE TABLE virtual_fs_db (
+CREATE TABLE `virtual_fs_db` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     filename TEXT NOT NULL,
     content LONGBLOB NULL,
@@ -1221,7 +1221,7 @@ CREATE TABLE virtual_fs_db (
 # ----------------------------------------------------------
 #  create table package_repository
 # ----------------------------------------------------------
-CREATE TABLE package_repository (
+CREATE TABLE `package_repository` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     version VARCHAR (250) NOT NULL,
@@ -1239,7 +1239,7 @@ CREATE TABLE package_repository (
 # ----------------------------------------------------------
 #  create table gi_webservice_config
 # ----------------------------------------------------------
-CREATE TABLE gi_webservice_config (
+CREATE TABLE `gi_webservice_config` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     config LONGBLOB NOT NULL,
@@ -1254,7 +1254,7 @@ CREATE TABLE gi_webservice_config (
 # ----------------------------------------------------------
 #  create table gi_webservice_config_history
 # ----------------------------------------------------------
-CREATE TABLE gi_webservice_config_history (
+CREATE TABLE `gi_webservice_config_history` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     config_id INTEGER NOT NULL,
     config LONGBLOB NOT NULL,
@@ -1269,7 +1269,7 @@ CREATE TABLE gi_webservice_config_history (
 # ----------------------------------------------------------
 #  create table gi_debugger_entry
 # ----------------------------------------------------------
-CREATE TABLE gi_debugger_entry (
+CREATE TABLE `gi_debugger_entry` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     communication_id VARCHAR (32) NOT NULL,
     communication_type VARCHAR (50) NOT NULL,
@@ -1283,7 +1283,7 @@ CREATE TABLE gi_debugger_entry (
 # ----------------------------------------------------------
 #  create table gi_debugger_entry_content
 # ----------------------------------------------------------
-CREATE TABLE gi_debugger_entry_content (
+CREATE TABLE `gi_debugger_entry_content` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     gi_debugger_entry_id BIGINT NOT NULL,
     debug_level VARCHAR (50) NOT NULL,
@@ -1297,7 +1297,7 @@ CREATE TABLE gi_debugger_entry_content (
 # ----------------------------------------------------------
 #  create table smime_signer_cert_relations
 # ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
+CREATE TABLE `smime_signer_cert_relations` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     cert_hash VARCHAR (8) NOT NULL,
     cert_fingerprint VARCHAR (59) NOT NULL,
@@ -1312,7 +1312,7 @@ CREATE TABLE smime_signer_cert_relations (
 # ----------------------------------------------------------
 #  create table dynamic_field_value
 # ----------------------------------------------------------
-CREATE TABLE dynamic_field_value (
+CREATE TABLE `dynamic_field_value` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     field_id INTEGER NOT NULL,
     object_id BIGINT NOT NULL,
@@ -1328,7 +1328,7 @@ CREATE TABLE dynamic_field_value (
 # ----------------------------------------------------------
 #  create table dynamic_field
 # ----------------------------------------------------------
-CREATE TABLE dynamic_field (
+CREATE TABLE `dynamic_field` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     internal_field SMALLINT NOT NULL DEFAULT 0,
     name VARCHAR (200) NOT NULL,
@@ -1348,7 +1348,7 @@ CREATE TABLE dynamic_field (
 # ----------------------------------------------------------
 #  create table dynamic_field_obj_id_name
 # ----------------------------------------------------------
-CREATE TABLE dynamic_field_obj_id_name (
+CREATE TABLE `dynamic_field_obj_id_name` (
     object_id INTEGER NOT NULL AUTO_INCREMENT,
     object_name VARCHAR (200) NOT NULL,
     object_type VARCHAR (100) NOT NULL,
@@ -1358,7 +1358,7 @@ CREATE TABLE dynamic_field_obj_id_name (
 # ----------------------------------------------------------
 #  create table pm_process
 # ----------------------------------------------------------
-CREATE TABLE pm_process (
+CREATE TABLE `pm_process` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1375,7 +1375,7 @@ CREATE TABLE pm_process (
 # ----------------------------------------------------------
 #  create table pm_activity
 # ----------------------------------------------------------
-CREATE TABLE pm_activity (
+CREATE TABLE `pm_activity` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1390,7 +1390,7 @@ CREATE TABLE pm_activity (
 # ----------------------------------------------------------
 #  create table pm_activity_dialog
 # ----------------------------------------------------------
-CREATE TABLE pm_activity_dialog (
+CREATE TABLE `pm_activity_dialog` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1405,7 +1405,7 @@ CREATE TABLE pm_activity_dialog (
 # ----------------------------------------------------------
 #  create table pm_transition
 # ----------------------------------------------------------
-CREATE TABLE pm_transition (
+CREATE TABLE `pm_transition` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1420,7 +1420,7 @@ CREATE TABLE pm_transition (
 # ----------------------------------------------------------
 #  create table pm_transition_action
 # ----------------------------------------------------------
-CREATE TABLE pm_transition_action (
+CREATE TABLE `pm_transition_action` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1435,7 +1435,7 @@ CREATE TABLE pm_transition_action (
 # ----------------------------------------------------------
 #  create table pm_entity_sync
 # ----------------------------------------------------------
-CREATE TABLE pm_entity_sync (
+CREATE TABLE `pm_entity_sync` (
     entity_type VARCHAR (30) NOT NULL,
     entity_id VARCHAR (50) NOT NULL,
     sync_state VARCHAR (30) NOT NULL,
@@ -1446,7 +1446,7 @@ CREATE TABLE pm_entity_sync (
 # ----------------------------------------------------------
 #  create table scheduler_task
 # ----------------------------------------------------------
-CREATE TABLE scheduler_task (
+CREATE TABLE `scheduler_task` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ident BIGINT NOT NULL,
     name VARCHAR (150) NULL,
@@ -1465,7 +1465,7 @@ CREATE TABLE scheduler_task (
 # ----------------------------------------------------------
 #  create table scheduler_future_task
 # ----------------------------------------------------------
-CREATE TABLE scheduler_future_task (
+CREATE TABLE `scheduler_future_task` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ident BIGINT NOT NULL,
     execution_time DATETIME NOT NULL,
@@ -1484,7 +1484,7 @@ CREATE TABLE scheduler_future_task (
 # ----------------------------------------------------------
 #  create table scheduler_recurrent_task
 # ----------------------------------------------------------
-CREATE TABLE scheduler_recurrent_task (
+CREATE TABLE `scheduler_recurrent_task` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (150) NOT NULL,
     task_type VARCHAR (150) NOT NULL,
@@ -1504,7 +1504,7 @@ CREATE TABLE scheduler_recurrent_task (
 # ----------------------------------------------------------
 #  create table cloud_service_config
 # ----------------------------------------------------------
-CREATE TABLE cloud_service_config (
+CREATE TABLE `cloud_service_config` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     config LONGBLOB NOT NULL,
@@ -1519,7 +1519,7 @@ CREATE TABLE cloud_service_config (
 # ----------------------------------------------------------
 #  create table sysconfig_default
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_default (
+CREATE TABLE `sysconfig_default` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (250) NOT NULL,
     description LONGBLOB NOT NULL,
@@ -1550,7 +1550,7 @@ CREATE TABLE sysconfig_default (
 # ----------------------------------------------------------
 #  create table sysconfig_default_version
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_default_version (
+CREATE TABLE `sysconfig_default_version` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_id INTEGER NULL,
     name VARCHAR (250) NOT NULL,
@@ -1578,7 +1578,7 @@ CREATE TABLE sysconfig_default_version (
 # ----------------------------------------------------------
 #  create table sysconfig_modified
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_modified (
+CREATE TABLE `sysconfig_modified` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_id INTEGER NOT NULL,
     name VARCHAR (250) NOT NULL,
@@ -1598,7 +1598,7 @@ CREATE TABLE sysconfig_modified (
 # ----------------------------------------------------------
 #  create table sysconfig_modified_version
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_modified_version (
+CREATE TABLE `sysconfig_modified_version` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_version_id INTEGER NOT NULL,
     name VARCHAR (250) NOT NULL,
@@ -1616,7 +1616,7 @@ CREATE TABLE sysconfig_modified_version (
 # ----------------------------------------------------------
 #  create table sysconfig_deployment_lock
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_deployment_lock (
+CREATE TABLE `sysconfig_deployment_lock` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     exclusive_lock_guid VARCHAR (32) NULL,
     exclusive_lock_user_id INTEGER NULL,
@@ -1626,7 +1626,7 @@ CREATE TABLE sysconfig_deployment_lock (
 # ----------------------------------------------------------
 #  create table sysconfig_deployment
 # ----------------------------------------------------------
-CREATE TABLE sysconfig_deployment (
+CREATE TABLE `sysconfig_deployment` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     comments VARCHAR (250) NULL,
     user_id INTEGER NULL,
@@ -1638,7 +1638,7 @@ CREATE TABLE sysconfig_deployment (
 # ----------------------------------------------------------
 #  create table calendar
 # ----------------------------------------------------------
-CREATE TABLE calendar (
+CREATE TABLE `calendar` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     group_id INTEGER NOT NULL,
     name VARCHAR (200) NOT NULL,
@@ -1656,7 +1656,7 @@ CREATE TABLE calendar (
 # ----------------------------------------------------------
 #  create table calendar_appointment
 # ----------------------------------------------------------
-CREATE TABLE calendar_appointment (
+CREATE TABLE `calendar_appointment` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     parent_id BIGINT NULL,
     calendar_id BIGINT NOT NULL,
@@ -1694,7 +1694,7 @@ CREATE TABLE calendar_appointment (
 # ----------------------------------------------------------
 #  create table calendar_appointment_ticket
 # ----------------------------------------------------------
-CREATE TABLE calendar_appointment_ticket (
+CREATE TABLE `calendar_appointment_ticket` (
     calendar_id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     rule_id VARCHAR (32) NOT NULL,
@@ -1708,7 +1708,7 @@ CREATE TABLE calendar_appointment_ticket (
 # ----------------------------------------------------------
 #  create table ticket_number_counter
 # ----------------------------------------------------------
-CREATE TABLE ticket_number_counter (
+CREATE TABLE `ticket_number_counter` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     counter BIGINT NOT NULL,
     counter_uid VARCHAR (32) NOT NULL,
@@ -1720,7 +1720,7 @@ CREATE TABLE ticket_number_counter (
 # ----------------------------------------------------------
 #  create table mail_queue
 # ----------------------------------------------------------
-CREATE TABLE mail_queue (
+CREATE TABLE `mail_queue` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     insert_fingerprint VARCHAR (64) NULL,
     article_id BIGINT NULL,
@@ -1740,7 +1740,7 @@ CREATE TABLE mail_queue (
 # ----------------------------------------------------------
 #  create table communication_log
 # ----------------------------------------------------------
-CREATE TABLE communication_log (
+CREATE TABLE `communication_log` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     insert_fingerprint VARCHAR (64) NULL,
     transport VARCHAR (200) NOT NULL,
@@ -1759,7 +1759,7 @@ CREATE TABLE communication_log (
 # ----------------------------------------------------------
 #  create table communication_log_object
 # ----------------------------------------------------------
-CREATE TABLE communication_log_object (
+CREATE TABLE `communication_log_object` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     insert_fingerprint VARCHAR (64) NULL,
     communication_id BIGINT NOT NULL,
@@ -1774,7 +1774,7 @@ CREATE TABLE communication_log_object (
 # ----------------------------------------------------------
 #  create table communication_log_object_entry
 # ----------------------------------------------------------
-CREATE TABLE communication_log_object_entry (
+CREATE TABLE `communication_log_object_entry` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     communication_log_object_id BIGINT NOT NULL,
     log_key VARCHAR (200) NOT NULL,
@@ -1787,7 +1787,7 @@ CREATE TABLE communication_log_object_entry (
 # ----------------------------------------------------------
 #  create table communication_log_obj_lookup
 # ----------------------------------------------------------
-CREATE TABLE communication_log_obj_lookup (
+CREATE TABLE `communication_log_obj_lookup` (
     id BIGINT NOT NULL AUTO_INCREMENT,
     communication_log_object_id BIGINT NOT NULL,
     object_type VARCHAR (200) NOT NULL,
@@ -1798,7 +1798,7 @@ CREATE TABLE communication_log_obj_lookup (
 # ----------------------------------------------------------
 #  create table form_draft
 # ----------------------------------------------------------
-CREATE TABLE form_draft (
+CREATE TABLE `form_draft` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     object_type VARCHAR (100) NOT NULL,
     object_id INTEGER NOT NULL,
@@ -1815,7 +1815,7 @@ CREATE TABLE form_draft (
 # ----------------------------------------------------------
 #  create table oauth2_token_config
 # ----------------------------------------------------------
-CREATE TABLE oauth2_token_config (
+CREATE TABLE `oauth2_token_config` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (250) NOT NULL,
     config TEXT NOT NULL,
@@ -1830,7 +1830,7 @@ CREATE TABLE oauth2_token_config (
 # ----------------------------------------------------------
 #  create table oauth2_token
 # ----------------------------------------------------------
-CREATE TABLE oauth2_token (
+CREATE TABLE `oauth2_token` (
     id INTEGER NOT NULL AUTO_INCREMENT,
     config_id INTEGER NOT NULL,
     authorization_code TEXT NULL,
