@@ -1,7 +1,8 @@
-# 6.0.41 2023-XX-XX
+# 6.0.41 2024-XX-XX
  - Added default settings for new customer UI (to be used if not set explicitly by the user)
  - Added support for date/time, checkbox, and textarea dynamic fields on the new ticket screen of refreshed customer UI
  - Added missing "next activities" box on process ticket screen of refreshed customer UI
+ - Updated SQL queries and database creation scripts to work with MySQL 8.0+
 
 # 6.0.40 2023-04-05
  - Added support for pasting images into the rich text editor on the new ticket screen of refreshed customer UI
