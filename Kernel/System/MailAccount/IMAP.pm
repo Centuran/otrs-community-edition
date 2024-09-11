@@ -436,6 +436,15 @@ sub _Fetch {
                 );
 
                 $ConnectionWithErrors = 1;
+                # increment the counter to download more messages, related with PostMasterReconnectMessage setting
+                $MaxPopEmailSession++;
+                if ($CMD) {
+                    print "SKipping: $Self->{ModuleName}: cannot fetch " .
+                        "message $MessageNo/$MessageCount from " .
+                        "$Param{Login}/$Param{Host} - message too large " .
+                        "($MessageSize KB; maximum allowed size is " .
+                        "$MaxEmailSize KB)\n\n";
+                }
             }
             else {
 
