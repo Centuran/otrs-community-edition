@@ -325,7 +325,8 @@ sub ArticleWriteAttachment {
     my $NewFileName = $Param{Filename};
     my %UsedFile;
     my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
+        ArticleID     => $Param{ArticleID},
+        OnlyMyBackend => 1,
     );
 
     # Normalize filenames to find file names which are identical but in a different unicode form.

@@ -13,6 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use File::Basename qw(basename);
+
 use Kernel::System::PostMaster;
 
 # create tickets/article/attachments in backend for article storage switch tests
@@ -37,6 +39,11 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $SourceBackend,
     );
 
+    $ConfigObject->Set(
+        Key   => 'Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends',
+        Value => 1,
+    );
+
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
@@ -50,7 +57,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     my @TicketIDs;
     my %ArticleIDs;
     my $NamePrefix = "ArticleStorageSwitch ($SourceBackend)";
-    for my $File (qw(1 2 3 4 5 6 7 8 9 10 11 20)) {
+    for my $File (qw(1 2 3 4 5 6 7 8 9 10 11 20 28)) {
 
         my $NamePrefix = "$NamePrefix #$File ";
 
@@ -173,6 +180,37 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $ArticleID,
             );
+
+            my @AttachmentFiles;
+
+            my $StorageModule = $ArticleBackendObject->{ArticleStorageModule};
+
+            if ( $StorageModule =~ /ArticleStorageDB$/ ) {
+                @AttachmentFiles = map { $Index{$_}->{Filename} } keys %Index;
+            }
+            elsif ( $StorageModule =~ /ArticleStorageFS$/ ) {
+                my $ArticleDataDir = $ConfigObject->Get('Ticket::Article::' .
+                    'Backend::MIMEBase::ArticleDataDir');
+                my $ContentPath =
+                    $Kernel::OM->Get($StorageModule)->BuildArticleContentPath();
+                
+                @AttachmentFiles = $MainObject->DirectoryRead(
+                    Directory => "$ArticleDataDir/$ContentPath/$ArticleID",
+                    Filter    => '*',
+                    Silent    => 1,
+                );
+            }
+
+            for my $File ( @AttachmentFiles ) {
+                my $Basename = basename($File);
+
+                # Check for wrong file names after the switch (e.g. "file-1-1"
+                # rather than "file-1")
+                $Self->True(
+                    $Basename !~ /^ file - \d+ - \d+ /x,
+                    "Attachment file name is valid ($Basename)"
+                );
+            }
 
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
