@@ -129,7 +129,7 @@ sub GroupAdd {
 
     # insert new group
     return if !$DBObject->Do(
-        SQL => 'INSERT INTO groups (name, comments, valid_id, '
+        SQL => 'INSERT INTO `groups` (name, comments, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
@@ -139,7 +139,7 @@ sub GroupAdd {
 
     # get new group id
     return if !$DBObject->Prepare(
-        SQL  => 'SELECT id FROM groups WHERE name = ?',
+        SQL  => 'SELECT id FROM `groups` WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
 
@@ -282,7 +282,7 @@ sub GroupUpdate {
 
     # update group in database
     return if !$DBObject->Do(
-        SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
+        SQL => 'UPDATE `groups` SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
@@ -461,7 +461,7 @@ sub GroupDataList {
 
     # get all group data from database
     return if !$DBObject->Prepare(
-        SQL => 'SELECT id, name, comments, valid_id, create_time, create_by, change_time, change_by FROM groups',
+        SQL => 'SELECT id, name, comments, valid_id, create_time, create_by, change_time, change_by FROM `groups`',
     );
 
     # fetch the result

@@ -222,7 +222,7 @@ sub TableCreate {
         }
         if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
             if ( $Tag->{TagType} eq 'Start' ) {
-                $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
+                $SQLStart .= "CREATE TABLE \`$Tag->{Name}\` (\n";
                 $TableName = $Tag->{Name};
             }
             elsif ( $Tag->{TagType} eq 'End' ) {
@@ -371,7 +371,7 @@ sub TableDrop {
                     . "----------------------------------------------------------\n";
             }
         }
-        $SQL .= 'DROP TABLE IF EXISTS ' . $Tag->{Name};
+        $SQL .= 'DROP TABLE IF EXISTS `' . $Tag->{Name} . '`';
         return ($SQL);
     }
     return ();
@@ -406,9 +406,9 @@ sub TableAlter {
 
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
-                push @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} RENAME $Tag->{NameNew}";
+                push @SQL, $SQLStart . "ALTER TABLE `$Tag->{NameOld}` RENAME `$Tag->{NameNew}`";
             }
-            $SQLStart .= "ALTER TABLE $Table";
+            $SQLStart .= "ALTER TABLE `$Table`";
         }
         elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
 
@@ -434,9 +434,9 @@ sub TableAlter {
             if ( $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+                push @SQL, "UPDATE `$Table` SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
 
-                my $SQLAlter = "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type}";
+                my $SQLAlter = "ALTER TABLE `$Table` CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type}";
 
                 # add default
                 if ( defined $Tag->{Default} ) {
@@ -464,7 +464,7 @@ sub TableAlter {
 
             # set default as NULL (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
             if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
-                push @SQL, "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type} DEFAULT NULL";
+                push @SQL, "ALTER TABLE `$Table` CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type} DEFAULT NULL";
             }
 
             # investigate the default value
@@ -484,9 +484,9 @@ sub TableAlter {
 
                 # fill up empty rows
                 push @SQL,
-                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+                    "UPDATE `$Table` SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
 
-                my $SQLAlter = "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
+                my $SQLAlter = "ALTER TABLE `$Table` CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
 
                 # add default
                 if ( defined $Tag->{Default} ) {
@@ -566,7 +566,7 @@ sub IndexCreate {
         }
     }
 
-    my $CreateIndexSQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
+    my $CreateIndexSQL = "CREATE INDEX $Param{Name} ON `$Param{TableName}` (";
     my @Array          = @{ $Param{Data} };
     for my $Index ( 0 .. $#Array ) {
         if ( $Index > 0 ) {
@@ -607,7 +607,7 @@ sub IndexDrop {
         }
     }
 
-    my $DropIndexSQL = 'DROP INDEX ' . $Param{Name} . ' ON ' . $Param{TableName};
+    my $DropIndexSQL = 'DROP INDEX ' . $Param{Name} . ' ON `' . $Param{TableName} . '`';
 
     my @SQL;
 
@@ -649,8 +649,8 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
-        . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
+    my $CreateForeignKeySQL = "ALTER TABLE `$Param{LocalTableName}` ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+        . "($Param{Local}) REFERENCES `$Param{ForeignTableName}` ($Param{Foreign})";
 
     my @SQL;
 
@@ -702,7 +702,7 @@ sub ForeignKeyDrop {
     push @SQL,
         "SET \@FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = '$Param{LocalTableName}' AND constraint_name = '$ForeignKey')";
     push @SQL,
-        "SET \@FKSQLStatement := IF( \@FKExists > 0, 'ALTER TABLE $Param{LocalTableName} DROP FOREIGN KEY $ForeignKey', 'SELECT ''INFO: Foreign key constraint $ForeignKey does not exist, skipping.''' )";
+        "SET \@FKSQLStatement := IF( \@FKExists > 0, 'ALTER TABLE `$Param{LocalTableName}` DROP FOREIGN KEY $ForeignKey', 'SELECT ''INFO: Foreign key constraint $ForeignKey does not exist, skipping.''' )";
     push @SQL, "PREPARE FKStatement FROM \@FKSQLStatement";
     push @SQL, "EXECUTE FKStatement";
 
@@ -710,7 +710,7 @@ sub ForeignKeyDrop {
     push @SQL,
         "SET \@IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = '$Param{LocalTableName}' AND index_name = '$ForeignKey')";
     push @SQL,
-        "SET \@IndexSQLStatement := IF( \@IndexExists > 0, 'DROP INDEX $ForeignKey ON $Param{LocalTableName}', 'SELECT ''INFO: Index $ForeignKey does not exist, skipping.''' )";
+        "SET \@IndexSQLStatement := IF( \@IndexExists > 0, 'DROP INDEX $ForeignKey ON `$Param{LocalTableName}`', 'SELECT ''INFO: Index $ForeignKey does not exist, skipping.''' )";
     push @SQL, "PREPARE IndexStatement FROM \@IndexSQLStatement";
     push @SQL, "EXECUTE IndexStatement";
 
@@ -730,7 +730,7 @@ sub UniqueCreate {
             return;
         }
     }
-    my $CreateUniqueSQL = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE INDEX (";
+    my $CreateUniqueSQL = "ALTER TABLE `$Param{TableName}` ADD CONSTRAINT $Param{Name} UNIQUE INDEX (";
     my @Array           = @{ $Param{Data} };
     for my $Index ( 0 .. $#Array ) {
         if ( $Index > 0 ) {
@@ -766,7 +766,7 @@ sub UniqueDrop {
             return;
         }
     }
-    my $DropUniqueSQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP INDEX ' . $Param{Name};
+    my $DropUniqueSQL = 'ALTER TABLE `' . $Param{TableName} . '` DROP INDEX ' . $Param{Name};
 
     my @SQL;
 
@@ -800,7 +800,7 @@ sub Insert {
                 $SQL .= $Self->{'DB::Comment'}
                     . "----------------------------------------------------------\n";
             }
-            $SQL .= "INSERT INTO $Tag->{Table} ";
+            $SQL .= "INSERT INTO `$Tag->{Table}` ";
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };

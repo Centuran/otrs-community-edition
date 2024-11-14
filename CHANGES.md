@@ -3,6 +3,7 @@
  - Added support for date/time, checkbox, and textarea dynamic fields on the new ticket screen of refreshed customer UI
  - Added missing "next activities" box on process ticket screen of refreshed customer UI
  - Fixed a problem with the ArticleStorageSwitch operation generating invalid attachment file names
+ - Updated SQL queries and database creation scripts to work with MySQL 8.0+
 
 # 6.0.40 2023-04-05
  - Added support for pasting images into the rich text editor on the new ticket screen of refreshed customer UI
