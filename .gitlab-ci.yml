@@ -12,6 +12,7 @@ variables:
   DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
   DOCKER_DRIVER: "overlay2"
   REGISTRY_PATH: "${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}"
+  KUBE_NAMESPACE: "otrs-ce"
 
 include:
   - .gitlab-ci-build-demo.yml
@@ -104,7 +105,7 @@ apply-images:
     GITLAB_REGISTRY_USER: ""
     GITLAB_REGISTRY_PASSWORD: ""
     GIT_STRATEGY: none     # Don't check out the code
-  before_script:
+  before_script: &before-apply    # Add an anchor to reuse in other apply jobs
     # Install Kubectl (based on atlassian/pipelines-kubectl image)
     - apk add --update --no-cache ca-certificates bash
     - apk add --update --no-cache -t deps curl
@@ -143,12 +144,21 @@ apply-images:
     - kompose -f /tmp/otrs-ce-dev-env/docker-compose.yml -f /tmp/otrs-ce-dev-env/docker-compose-selenium.yml convert -o /tmp/kubernetes/
 
     # Create secret configuration file for registry access
-    - kubectl delete --kubeconfig "${KUBECONFIG}" secret gitlab-registry-secret --ignore-not-found
-    - kubectl create --kubeconfig "${KUBECONFIG}" secret docker-registry gitlab-registry-secret --docker-server="${CI_REGISTRY}" --docker-username="${GITLAB_REGISTRY_USER}" --docker-password="${GITLAB_REGISTRY_PASSWORD}"
-    - kubectl get --kubeconfig "${KUBECONFIG}" secret gitlab-registry-secret --output=yaml > /tmp/kubernetes/gitlab-registry-secret.yaml
+    - kubectl config get-contexts || true
+    - kubectl config use-context centuran/centuran-gitlab-agent:centuran-gitlab-agent || true
+    - kubectl get namespace "${KUBE_NAMESPACE}" || kubectl create namespace "${KUBE_NAMESPACE}"
+    - kubectl -n "${KUBE_NAMESPACE}" delete secret gitlab-registry-secret --ignore-not-found
+    - kubectl -n "${KUBE_NAMESPACE}" create secret docker-registry gitlab-registry-secret --docker-server="${CI_REGISTRY}" --docker-username="${GITLAB_REGISTRY_USER}" --docker-password="${GITLAB_REGISTRY_PASSWORD}"
+    - kubectl -n "${KUBE_NAMESPACE}" get secret gitlab-registry-secret --output=yaml > /tmp/kubernetes/gitlab-registry-secret.yaml
+
+    # Remove previous deployments
+    - kubectl -n "${KUBE_NAMESPACE}" delete deployments --all
 
     # Apply the configuration
-    - kubectl apply --kubeconfig "${KUBECONFIG}" -f /tmp/kubernetes
+    - kubectl -n "${KUBE_NAMESPACE}" apply -f /tmp/kubernetes
+
+    # Wait for the deployments to be ready
+    - kubectl -n "${KUBE_NAMESPACE}" wait --for=condition=available --timeout=600s deployment/otrs
 
 #
 # Run tests
@@ -168,26 +178,22 @@ run-non-selenium-tests:
     action: prepare
   variables:
     GIT_STRATEGY: none     # Don't check out the code
-  before_script: &before-test    # Add an anchor to reuse in other test jobs
-    # Install Docker and do "docker login"
-    - apk update
-    - apk add --repository https://alpine.global.ssl.fastly.net/alpine/v3.13/community ca-certificates curl docker=20.10.3-r1 git
-    - update-ca-certificates
-    - until docker info; do sleep 1; done
-    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
-    # Install Kubectl
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+  before_script: *before-apply
   script:
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sh /root/blacklist-selenium-tests.sh
+    # Set Kubernetes context
+    - >
+      kubectl config use-context \
+        centuran/centuran-gitlab-agent:centuran-gitlab-agent
+
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sh /root/blacklist-selenium-tests.sh
     # TODO: Move the commands below to a shell script
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- /opt/otrs/bin/otrs.SetPermissions.pl
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Group::UserLink --user-name 'root@localhost' --group-name admin --permission rw
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild --cleanup
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- supervisorctl restart apache2
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.CheckSum.pl -a create
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs -- sudo -u otrs -i /opt/otrs/bin/otrs.Console.pl Dev::UnitTest::Run
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- /opt/otrs/bin/otrs.SetPermissions.pl
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Group::UserLink --user-name 'root@localhost' --group-name admin --permission rw
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild --cleanup
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- supervisorctl restart apache2
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sudo -u otrs /opt/otrs/bin/otrs.CheckSum.pl -a create
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs -- sudo -u otrs -i /opt/otrs/bin/otrs.Console.pl Dev::UnitTest::Run
 
 run-selenium-tests:
   stage: test
@@ -200,25 +206,30 @@ run-selenium-tests:
     action: prepare
   variables:
     GIT_STRATEGY: none     # Don't check out the code
-  before_script: *before-test
+  before_script: *before-apply
   script:
+    # Set Kubernetes context
+    - >
+      kubectl config use-context \
+        centuran/centuran-gitlab-agent:centuran-gitlab-agent
+
     # Set database host to otrs-db-2
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sed -i '/^[^#].*{DatabaseHost} =/c\ \ \ \ $Self->{DatabaseHost} = '"'"'otrs-db-2'"'"';' /opt/otrs/Kernel/Config.pm
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sed -i '/^[^#].*{DatabaseHost} =/c\ \ \ \ $Self->{DatabaseHost} = '"'"'otrs-db-2'"'"';' /opt/otrs/Kernel/Config.pm
     # Set TestHTTPHostname to otrs-2
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sed -i '/^[^#].*{TestHTTPHostname} =/c\ \ \ \ $Self->{TestHTTPHostname} = '"'"'otrs-2'"'"';' /opt/otrs/Kernel/Config.pm
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- /opt/otrs/bin/otrs.SetPermissions.pl
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sed -i '/^[^#].*{TestHTTPHostname} =/c\ \ \ \ $Self->{TestHTTPHostname} = '"'"'otrs-2'"'"';' /opt/otrs/Kernel/Config.pm
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- /opt/otrs/bin/otrs.SetPermissions.pl
     # Comment out SecureMode setting (Installer.t tests need this)
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sed -i 's/^\(\s*\)\(\$Self->{SecureMode}\)/\1#\2/' /opt/otrs/Kernel/Config.pm
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sed -i 's/^\(\s*\)\(\$Self->{SecureMode}\)/\1#\2/' /opt/otrs/Kernel/Config.pm
     # Set Kernel/Config.pm as writable by web server
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- chmod g+w /opt/otrs/Kernel/Config.pm
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Group::UserLink --user-name 'root@localhost' --group-name admin --permission rw
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild --cleanup
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- chmod g+w /opt/otrs/Kernel/Config.pm
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Group::UserLink --user-name 'root@localhost' --group-name admin --permission rw
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild --cleanup
     # Enable SecureMode through console command
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Config::Update --setting-name SecureMode --value 1
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- supervisorctl restart apache2
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.CheckSum.pl -a create
-    - kubectl --kubeconfig "${KUBECONFIG}" exec svc/otrs-2 -- sudo -u otrs -i /opt/otrs/bin/otrs.Console.pl Dev::UnitTest::Run --directory=Selenium
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.Console.pl Admin::Config::Update --setting-name SecureMode --value 1
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- supervisorctl restart apache2
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs /opt/otrs/bin/otrs.CheckSum.pl -a create
+    - kubectl -n "${KUBE_NAMESPACE}" exec svc/otrs-2 -- sudo -u otrs -i /opt/otrs/bin/otrs.Console.pl Dev::UnitTest::Run --directory=Selenium
 
 #
 # Cleanup the environment
@@ -240,4 +251,9 @@ cleanup-environment:
     - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
   script:
-    - kubectl --kubeconfig "${KUBECONFIG}" delete deployments --all
+    # Set Kubernetes context
+    - >
+      kubectl config use-context \
+        centuran/centuran-gitlab-agent:centuran-gitlab-agent
+
+    - kubectl -n "${KUBE_NAMESPACE}" delete deployments --all
