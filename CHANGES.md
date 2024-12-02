@@ -1,9 +1,13 @@
-# 6.0.41 2024-XX-XX
+# 6.0.41 2024-12-XX
  - Added default settings for new customer UI (to be used if not set explicitly by the user)
  - Added support for date/time, checkbox, and textarea dynamic fields on the new ticket screen of refreshed customer UI
  - Added missing "next activities" box on process ticket screen of refreshed customer UI
- - Fixed a problem with the ArticleStorageSwitch operation generating invalid attachment file names
  - Updated SQL queries and database creation scripts to work with MySQL 8.0+
+ - Allowed fetching more email messages if too large messages are encountered in the process
+ - Fixed a problem with the ArticleStorageSwitch operation generating invalid attachment file names
+ - Fixed a problem with uploading images in the rich text editor
+ - Fixed an XSS security issue via HTTP Request Splitting present in the web installation script
+   (thanks to XBOW Security)
 
 # 6.0.40 2023-04-05
  - Added support for pasting images into the rich text editor on the new ticket screen of refreshed customer UI
