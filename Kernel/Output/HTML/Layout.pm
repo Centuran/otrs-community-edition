@@ -1352,6 +1352,10 @@ sub Header {
 
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
 
+    # Sanitize the filename by only allowing alphanumeric characters,
+    # hyphens, underscores, and horizontal whitespace.
+    $File =~ s{ [^ a-z A-Z 0-9 _ \- \h ]+}{}gx;
+
     # set file name for "save page as"
     $Param{ContentDisposition} = "filename=\"$File.html\"";
 
@@ -4117,6 +4121,10 @@ sub CustomerHeader {
     }
 
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
+
+    # Sanitize the filename by only allowing alphanumeric characters,
+    # hyphens, underscores, and horizontal whitespace.
+    $File =~ s{ [^ a-z A-Z 0-9 _ \- \h ]+}{}gx;
 
     # set file name for "save page as"
     $Param{ContentDisposition} = "filename=\"$File.html\"";
