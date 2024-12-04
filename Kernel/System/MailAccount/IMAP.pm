@@ -436,8 +436,9 @@ sub _Fetch {
                 );
 
                 $ConnectionWithErrors = 1;
-                # increment the counter to download more messages, related with PostMasterReconnectMessage setting
-                $MaxPopEmailSession++;
+                # Do not count this message as fetched so that the maximum
+                # number of messages is not reached with failed messages
+                $FetchCounter--;
                 if ($CMD) {
                     print "Skipping: $Self->{ModuleName}: cannot fetch " .
                         "message $MessageNo/$MessageCount from " .
