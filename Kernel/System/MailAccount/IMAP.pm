@@ -382,7 +382,7 @@ sub _Fetch {
         for my $MessageNo (@$Messages) {
 
             # check if reconnect is needed
-            if ( ++$FetchCounter > $MaxPopEmailSession ) {
+            if ( $FetchCounter >= $MaxPopEmailSession ) {
                 $Self->{Reconnect} = 1;
 
                 if ($CMD) {
@@ -436,9 +436,6 @@ sub _Fetch {
                 );
 
                 $ConnectionWithErrors = 1;
-                # Do not count this message as fetched so that the maximum
-                # number of messages is not reached with failed messages
-                $FetchCounter--;
                 if ($CMD) {
                     print "Skipping: $Self->{ModuleName}: cannot fetch " .
                         "message $MessageNo/$MessageCount from " .
@@ -449,6 +446,7 @@ sub _Fetch {
             }
             else {
 
+                $FetchCounter++;
                 # safety protection
                 my $FetchDelay = ( $FetchCounter % 20 == 0 ? 1 : 0 );
                 if ( $FetchDelay && $CMD ) {
