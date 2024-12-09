@@ -259,9 +259,11 @@ sub Log {
         $Priority = lc $Priority;
 
         my $Data   = $LogTime . ";;$Priority;;$Self->{LogPrefix};;$Message\n";    ## no critic
-        my $String = $Self->GetLog();
+        my $String = $Data . $Self->GetLog();
 
-        shmwrite( $Self->{IPCSHMKey}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$String );
+
+        shmwrite( $Self->{IPCSHMKey}, $String, 0, $Self->{IPCSize} ) || die $!;
     }
 
     return 1;

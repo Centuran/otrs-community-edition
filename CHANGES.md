@@ -8,6 +8,8 @@
  - Fixed a problem with uploading images in the rich text editor
  - Fixed an XSS security issue via HTTP Request Splitting present in the web installation script
    (thanks to XBOW Security)
+ - Fixed a problem with handling of encoding in log messages in Perl 5.34 and later
+   (thanks to Dennis Boone)
 
 # 6.0.40 2023-04-05
  - Added support for pasting images into the rich text editor on the new ticket screen of refreshed customer UI
