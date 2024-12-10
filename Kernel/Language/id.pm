@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.669492962523317;
+    $Self->{Completeness}        = 0.668926936768944;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5907,6 +5907,7 @@ bin/otrs.Daemon.pl status\').',
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -6283,7 +6284,7 @@ Helpdesk Team Anda
             'Konfigurasi yang layar harus ditampilkan setelah tiket baru telah dibuat.',
         'Configure your own log text for PGP.' => 'Mengkonfigurasi teks log Anda sendiri untuk PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Mengkonfigurasi TicketDynamicField pengaturan default. "Nama" mendefinisikan bidang yang dinamis yang harus digunakan, "Value" adalah data yang akan ditetapkan, dan "Event" mendefinisikan acara pemicu. Silakan periksa pengembang user (https://doc.otrs.com/doc/), bab "Ticket acara Modul".',
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrol bagaimana menampilkan entri sejarah tiket sebagai nilai-nilai yang dapat dibaca.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6633,7 +6634,7 @@ Helpdesk Team Anda
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            'Mendefinisikan default front-end (HTML) tema yang akan digunakan oleh agen dan pelanggan. Jika Anda suka, Anda dapat menambahkan tema Anda sendiri. Silahkan lihat manual administrator yang terletak di https://doc.otrs.com/doc/.',
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Mendefinisikan bahasa default front-end. Semua nilai yang mungkin ditentukan oleh file bahasa yang tersedia pada sistem (lihat pengaturan berikutnya).',
         'Defines the default history type in the customer interface.' => 'Mendefinisikan jenis sejarah default dalam antarmuka pelanggan.',
@@ -8812,6 +8813,7 @@ Helpdesk Team Anda
         'phone' => 'telepon',
         'responsible' => 'bertanggung jawab',
         'reverse' => 'Mundur',
+        'small' => '',
         'stats' => 'statistik',
 
     };
@@ -9010,6 +9012,7 @@ Helpdesk Team Anda
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9144,6 +9147,7 @@ Helpdesk Team Anda
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

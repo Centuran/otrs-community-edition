@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.918772257079871;
+    $Self->{Completeness}        = 0.918121715545008;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5915,6 +5915,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -6291,7 +6292,7 @@ Thanks for your help!
             'Выберите экран, который должен отображаться после создания новой заявки.',
         'Configure your own log text for PGP.' => 'Настроить свой собственный текст журнала для PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Задает настройки TicketDynamicField по умолчанию. "Name/Имя" задает поле, которое будет использоваться, "Value/Значение" - данные которые будут заданы и "Event/Событие" определяет событие триггера. Подробнее, смотрите в руководстве разработчика (https://doc.otrs.com/doc/), раздел "Ticket Event Module".',
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Управляет способом отображения записей истории заявки в читаемом виде.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6641,7 +6642,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Задает поля фильтра по умолчанию при поиске в адресной книге клиентов (Клиент или Компания). Для полей компании клиента необходимо добавить префикс \'CustomerCompany_\'.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            'Задает имя темы (HTML theme - имя папки для альтернативных модулей), которая будет использоваться в интерфейсах агентов и клиентов. По желанию, вы можете добавить свою собственную тему. Подробности в руководстве администратора https://doc.otrs.com/doc/.',
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Задает язык интерфейса по умолчанию. Все доступные значения определяются наличием соответствующих языковых файлов в системе (см. следующий параметр).',
         'Defines the default history type in the customer interface.' => 'Задает тип записи истории в интерфейсе клиента.',
@@ -8819,6 +8820,7 @@ Thanks for your help!
         'phone' => 'телефон',
         'responsible' => 'ответственный',
         'reverse' => 'обратный',
+        'small' => '',
         'stats' => 'отчеты',
 
     };
@@ -9017,6 +9019,7 @@ Thanks for your help!
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9151,6 +9154,7 @@ Thanks for your help!
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

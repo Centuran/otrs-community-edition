@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.66372731897575;
+    $Self->{Completeness}        = 0.663332768265808;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5910,6 +5910,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -6292,7 +6293,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Configura que pantalla debe ser mostrada después de que un nuevo ticket haya sido creado.',
         'Configure your own log text for PGP.' => 'Configure su propio texto de registro de PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Configura un ajuste por defecto de CampoDinamicoTicket. "Nombre" define el campo dinámico que debe ser usado, "Valor" es el dato que será establecido, y "Evento" define el disparador del evento. Por favor compruebe el manual del desarrollador (https://doc.otrs.com/doc/), capítulo "Módulo Evento Ticket".',
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla cómo mostrar el historial de entradas como valores legibles.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -8820,6 +8821,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'phone' => 'teléfono',
         'responsible' => 'responsable',
         'reverse' => 'revertir',
+        'small' => '',
         'stats' => 'estadísticas',
 
     };
@@ -9018,6 +9020,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9152,6 +9155,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

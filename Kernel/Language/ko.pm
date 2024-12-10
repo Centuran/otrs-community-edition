@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.956079362387655;
+    $Self->{Completeness}        = 0.955246651974911;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5905,6 +5905,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -6281,7 +6282,7 @@ Thanks for your help!
             '새 티켓이 작성된 후 표시할 화면을 구성하십시오.',
         'Configure your own log text for PGP.' => 'PGP에 대한 자체 로그 텍스트를 구성하십시오.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            '기본 TicketDynamicField 설정을 구성합니다. "Name"은 사용할 동적 필드를 정의하고, "Value"는 설정할 데이터이고 "Event"는 트리거 이벤트를 정의합니다. 개발자 설명서 (https://doc.otrs.com/doc/), "Ticket Event Module"장을 확인하십시오.',
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             '티켓 기록 항목을 읽을 수 있는 값으로 표시하는 방법을 제어합니다.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6631,7 +6632,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 \'CustomerCompany_\'를 추가해야합니다.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            '에이전트 및 고객이 사용할 기본 프런트 엔드 (HTML) 테마를 정의합니다. 원한다면 자신 만의 테마를 추가 할 수 있습니다. https://doc.otrs.com/doc/ 에있는 관리자 설명서를 참조하십시오.',
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '기본 프런트 엔드 언어를 정의합니다. 가능한 모든 값은 시스템에서 사용 가능한 언어 파일에 의해 결정됩니다 (다음 설정 참조).',
         'Defines the default history type in the customer interface.' => '고객 인터페이스에서 기본 기록 유형을 정의합니다.',
@@ -8572,7 +8573,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the service view.' =>
             '서비스보기의 티켓 미리보기에서 빈 줄을 제거합니다.',
         'Support Agent' => '',
-        'Support Services' => '지원하다',
+        'Support Services' => '',
         'Swahili' => '스와힐리어',
         'Swedish' => '스웨덴어',
         'System Address Display Name' => '시스템 주소 표시 이름',
@@ -8809,6 +8810,7 @@ Thanks for your help!
         'phone' => '전화',
         'responsible' => '책임있는',
         'reverse' => '거꾸로',
+        'small' => '',
         'stats' => '통계',
 
     };
@@ -9007,6 +9009,7 @@ Thanks for your help!
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9141,6 +9144,7 @@ Thanks for your help!
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.982872647108699;
+    $Self->{Completeness}        = 0.982369893202238;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5911,6 +5911,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -8578,7 +8579,7 @@ Vaša tehnička podrška
         'Strips empty lines on the ticket preview in the service view.' =>
             'Uklanja prazne linije u prikazu tiketa na pregledu usluga.',
         'Support Agent' => 'Operater podrške',
-        'Support Services' => 'Podrška',
+        'Support Services' => '',
         'Swahili' => 'Svahili',
         'Swedish' => 'Švedski',
         'System Address Display Name' => 'Naziv za prikaz sistemske adrese',
@@ -8815,6 +8816,7 @@ Vaša tehnička podrška
         'phone' => 'poziv',
         'responsible' => 'odgovornost',
         'reverse' => 'obrnuto',
+        'small' => '',
         'stats' => 'statistika',
 
     };
@@ -9013,6 +9015,7 @@ Vaša tehnička podrška
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9147,6 +9150,7 @@ Vaša tehnička podrška
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

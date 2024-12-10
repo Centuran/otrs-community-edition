@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.986603357639478;
+    $Self->{Completeness}        = 0.986099338870995;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5905,6 +5905,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -8571,7 +8572,7 @@ Ihr Helpdesk-Team
         'Strips empty lines on the ticket preview in the service view.' =>
             'Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht.',
         'Support Agent' => 'Support-Agent',
-        'Support Services' => 'Support',
+        'Support Services' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Schwedisch',
         'System Address Display Name' => 'System-Adresse Anzeigename',
@@ -8808,6 +8809,7 @@ Ihr Helpdesk-Team
         'phone' => 'Telefonanruf',
         'responsible' => 'Verantwortlicher',
         'reverse' => 'umgekehrt',
+        'small' => '',
         'stats' => 'stats',
 
     };
@@ -9006,6 +9008,7 @@ Ihr Helpdesk-Team
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9140,6 +9143,7 @@ Ihr Helpdesk-Team
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

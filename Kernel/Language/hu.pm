@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.986603357639478;
+    $Self->{Completeness}        = 0.986099338870995;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5909,6 +5909,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -8576,7 +8577,7 @@ Az Ön segélyszolgálat csapata
         'Strips empty lines on the ticket preview in the service view.' =>
             'Eltávolítja az üres sorokat a jegyelőnézetből a szolgáltatás nézetben.',
         'Support Agent' => 'Támogató ügyintéző',
-        'Support Services' => 'Támogatás',
+        'Support Services' => '',
         'Swahili' => 'Szuahéli',
         'Swedish' => 'Svéd',
         'System Address Display Name' => 'Rendszercím megjelenített neve',
@@ -8813,6 +8814,7 @@ Az Ön segélyszolgálat csapata
         'phone' => 'telefon',
         'responsible' => 'felelős',
         'reverse' => 'megfordítás',
+        'small' => '',
         'stats' => 'statisztikák',
 
     };
@@ -9011,6 +9013,7 @@ Az Ön segélyszolgálat csapata
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9145,6 +9148,7 @@ Az Ön segélyszolgálat csapata
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

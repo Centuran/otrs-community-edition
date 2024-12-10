@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.986603357639478;
+    $Self->{Completeness}        = 0.986099338870995;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5910,6 +5910,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -8576,7 +8577,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the service view.' =>
             '在工单服务视图工单预览时去掉空白行。',
         'Support Agent' => '维护人员',
-        'Support Services' => '支持服务',
+        'Support Services' => '',
         'Swahili' => '斯瓦希里语',
         'Swedish' => '瑞典语',
         'System Address Display Name' => '系统邮件地址显示姓名',
@@ -8813,6 +8814,7 @@ Thanks for your help!
         'phone' => '电话',
         'responsible' => '负责人',
         'reverse' => '倒序',
+        'small' => '',
         'stats' => 'stats（统计）',
 
     };
@@ -9011,6 +9013,7 @@ Thanks for your help!
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9145,6 +9148,7 @@ Thanks for your help!
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',

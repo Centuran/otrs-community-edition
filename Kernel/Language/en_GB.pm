@@ -28,7 +28,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.667118874003731;
+    $Self->{Completeness}        = 0.666553653161553;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5908,6 +5908,7 @@ sub Data {
         'Set state to' => '',
         'Set priority to' => '',
         'Reply and Close' => '',
+        'There are no dialogs available at ' => '',
 
         # SysConfig
         '
@@ -6284,7 +6285,7 @@ Thanks for your help!
             'Configure which screen should be shown after a new ticket has been created.',
         'Configure your own log text for PGP.' => 'Configure your own log text for PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".',
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controls how to display the ticket history entries as readable values.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6634,7 +6635,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.',
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).',
         'Defines the default history type in the customer interface.' => 'Defines the default history type in the customer interface.',
@@ -8812,6 +8813,7 @@ Thanks for your help!
         'phone' => 'phone',
         'responsible' => '',
         'reverse' => 'reverse',
+        'small' => '',
         'stats' => '',
 
     };
@@ -9010,6 +9012,7 @@ Thanks for your help!
         'Namespace %s could not be initialized, because %s could not be found.',
         'New Ticket',
         'Next',
+        'Next Steps',
         'No Data Available.',
         'No TransitionActions assigned.',
         'No data found.',
@@ -9144,6 +9147,7 @@ Thanks for your help!
         'The key must not be empty.',
         'The mail could not be sent',
         'There are currently no elements available to select from.',
+        'There are no dialogs available at ',
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',
