@@ -1,4 +1,4 @@
-# 6.0.41 2024-12-XX
+# 6.0.41 2024-12-10
  - Added default settings for new customer UI (to be used if not set explicitly by the user)
  - Added support for date/time, checkbox, and textarea dynamic fields on the new ticket screen of refreshed customer UI
  - Added missing "next activities" box on process ticket screen of refreshed customer UI
